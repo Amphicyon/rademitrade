@@ -1,195 +1,982 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rademitrade — Пергола Групп</title>
-    <style>
-        :root {
-            --primary: #1a365d;
-            --accent: #2b6cb0;
-            --bg: #f7fafc;
-            --text: #2d3748;
-            --white: #ffffff;
-            --gray: #e2e8f0;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
-        header { background: var(--primary); color: var(--white); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .logo { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
-        .controls { display: flex; gap: 1rem; align-items: center; }
-        select { padding: 0.4rem 0.8rem; border-radius: 4px; border: 1px solid var(--gray); background: var(--white); color: var(--text); cursor: pointer; }
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
-        .hero { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 4rem 2rem; border-radius: 8px; text-align: center; margin-bottom: 2rem; }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; opacity: 0.9; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-        .card { background: var(--white); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-4px); }
-        .card-img { height: 200px; background: #cbd5e0; display: flex; align-items: center; justify-content: center; color: #4a5565; font-weight: bold; font-size: 1.1rem; }
-        .card-body { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
-        .card-title { font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem; color: var(--primary); }
-        .card-desc { font-size: 0.95rem; color: #4a5568; margin-bottom: 1.5rem; flex-grow: 1; }
-        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-        .price { font-size: 1.2rem; font-weight: bold; color: var(--accent); }
-        .btn { background: var(--primary); color: var(--white); border: none; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: 600; transition: background 0.2s; }
-        .btn:hover { background: var(--accent); }
-        footer { text-align: center; padding: 2rem; margin-top: 3rem; background: var(--primary); color: var(--white); font-size: 0.9rem; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rademitrade - Virtual Shopping Mall</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2d4a3e;       /* Глубокий природный хвойный */
+      --accent: #4a7c59;        /* Мягкий травянистый акцент */
+      --orange: #d97742;        /* Теплый терракотовый */
+      --bg: #f7f5f0;            /* Теплый молочный фон */
+      --card-bg: #ffffff;       /* Чистый белый для карточек */
+      --text-main: #2b332f;     /* Темно-зеленый/серый для текста */
+      --text-muted: #6b7770;    /* Приглушенный текст */
+      --border-color: #e3ded6;  /* Мягкая граница */
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text-main); }
+
+    /* Header Bar */
+    header {
+      background: #ffffff;
+      padding: 16px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 15px;
+      box-shadow: 0 4px 20px rgba(45, 74, 62, 0.04);
+    }
+    
+    /* Logo Styling */
+    .logo { 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      gap: 12px;
+      user-select: none;
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .logo-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+    .logo-domain {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-actions { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+    
+    select.control-select {
+      background: #f0ede6;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 8px 14px;
+      border-radius: 12px;
+      outline: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .cart-btn { background: var(--orange); color: #fff; padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: bold; white-space: nowrap; box-shadow: 0 4px 12px rgba(217, 119, 66, 0.2); transition: 0.2s; }
+    .cart-btn:hover { opacity: 0.9; }
+
+    /* Ticker Bar */
+    .ticker-bar {
+      background: #efece4;
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 20px;
+      display: flex;
+      gap: 25px;
+      overflow-x: auto;
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .ticker-item { display: flex; align-items: center; gap: 6px; }
+    .ticker-item span.val { color: var(--text-main); font-weight: bold; }
+
+    /* Crypto Payment Announcement Bar */
+    .crypto-banner {
+      background: #eaf1ed;
+      border-bottom: 1px solid #d4e2da;
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .crypto-banner i { color: #d97742; font-size: 16px; }
+
+    /* View Controller */
+    .page-view { display: none; padding: 40px; }
+    .page-view.active { display: block; }
+
+    /* --- MALL LOBBY VIEW --- */
+    .lobby-hero { text-align: center; padding: 20px 0 40px 0; }
+    .lobby-hero h1 { font-size: 34px; margin-bottom: 10px; color: var(--primary); font-weight: 800; }
+    .lobby-hero p { color: var(--text-muted); font-size: 16px; }
+
+    .stores-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .store-front {
+      background: var(--card-bg);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(43, 51, 47, 0.04);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .store-front:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 16px 40px rgba(74, 124, 89, 0.12); }
+    .store-banner { height: 180px; background-size: cover; background-position: center; position: relative; }
+    .store-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(43,51,47,0.7), transparent); }
+    .store-badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9); color: var(--primary); padding: 5px 12px; border-radius: 12px; font-size: 11px; text-transform: uppercase; font-weight: 700; }
+    [dir="rtl"] .store-badge { left: auto; right: 15px; }
+
+    .store-body { padding: 24px; }
+    .store-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+    .store-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; min-height: 42px; }
+    .enter-btn { background: #f0ede6; border: none; color: var(--primary); width: 100%; padding: 12px; border-radius: 12px; font-weight: bold; transition: 0.2s; cursor: pointer; }
+    .store-front:hover .enter-btn { background: var(--primary); color: #fff; }
+
+    /* --- INSIDE STORE VIEW --- */
+    .store-header-banner {
+      border-radius: 24px;
+      background-size: cover;
+      background-position: center;
+      padding: 50px 40px;
+      margin-bottom: 30px;
+      position: relative;
+      box-shadow: 0 12px 35px rgba(43, 51, 47, 0.08);
+    }
+    .store-hero-content {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      padding: 35px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      max-width: 900px;
+    }
+    .back-to-mall { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); border: none; color: var(--primary); padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: 0.2s; }
+    [dir="rtl"] .back-to-mall { left: auto; right: 20px; }
+    .back-to-mall:hover { background: var(--primary); color: #fff; }
+    
+    /* Extended Store Info Styling */
+    .store-extended-info {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .store-features-list {
+      list-style-type: none;
+      margin: 15px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .store-features-list li {
+      background: #f7f5f0;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border-left: 3px solid var(--accent);
+      font-size: 13px;
+      color: var(--text-main);
+    }
+
+    /* Manufacturer Selector */
+    .manufacturer-filter {
+      margin: 25px 0 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: #ffffff;
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 15px rgba(43, 51, 47, 0.02);
+    }
+    .manufacturer-filter label {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 14px;
+    }
+    .mfr-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .mfr-btn {
+      background: #f7f5f0;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .mfr-btn:hover { border-color: var(--accent); color: var(--primary); }
+    .mfr-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: bold; }
+
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+    .product-card { background: var(--card-bg); border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); display: flex; flex-direction: column; box-shadow: 0 6px 20px rgba(43, 51, 47, 0.03); transition: 0.2s; }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(74, 124, 89, 0.08); }
+    .product-card img { width: 100%; height: 200px; object-fit: cover; }
+    .product-details { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .product-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+    .product-price { font-size: 18px; color: var(--orange); font-weight: 800; margin-bottom: 15px; }
+    .buy-btn { background: var(--accent); border: none; color: #fff; padding: 11px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+    .buy-btn:hover { opacity: 0.9; }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="logo">Rademitrade | Пергола Групп</div>
-        <div class="controls">
-            <select id="langSelect" onchange="changeLang()">
-                <option value="ru">Русский</option>
-                <option value="en">English</option>
-                <option value="he">עברית</option>
-            </select>
-            <select id="currSelect" onchange="changeCurr()">
-                <option value="RUB">RUB (₽)</option>
-                <option value="USD">USD ($)</option>
-                <option value="EUR">EUR (€)</option>
-                <option value="ILS">ILS (₪)</option>
-            </select>
-        </div>
-    </header>
 
-    <div class="container">
-        <section class="hero">
-            <h1 id="heroTitle">Премиальные перголы и маркизы</h1>
-            <p id="heroDesc">Индивидуальные архитектурные решения для вашего загородного дома, террасы и бизнеса.</p>
-        </section>
-
-        <div class="products-grid">
-            <div class="card">
-                <div class="card-img">Пергола Bioclimatic</div>
-                <div class="card-body">
-                    <div class="card-title" data-i18n="p1Title">Биоклиматическая пергола</div>
-                    <div class="card-desc" data-i18n="p1Desc">Алюминиевая конструкция с поворотными ламелями для полного контроля света и вентиляции.</div>
-                    <div class="card-footer">
-                        <span class="price" data-price="250000">250 000 ₽</span>
-                        <button class="btn" data-i18n="buyBtn">Заказать</button>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-img">Маркиза Cassette</div>
-                <div class="card-body">
-                    <div class="card-title" data-i18n="p2Title">Локтевая маркиза в кассете</div>
-                    <div class="card-desc" data-i18n="p2Desc">Надежная защита от солнца с электроприводом и датчиками ветра.</div>
-                    <div class="card-footer">
-                        <span class="price" data-price="120000">120 000 ₽</span>
-                        <button class="btn" data-i18n="buyBtn">Заказать</button>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-img">Раздвижная система Glass</div>
-                <div class="card-body">
-                    <div class="card-title" data-i18n="p3Title">Безрамное остекление</div>
-                    <div class="card-desc" data-i18n="p3Desc">Панорамное остекление террас с возможностью полного сдвигания секций.</div>
-                    <div class="card-footer">
-                        <span class="price" data-price="180000">180 000 ₽</span>
-                        <button class="btn" data-i18n="buyBtn">Заказать</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <!-- Top Header Bar -->
+  <header>
+    <div class="logo" onclick="openLobby()">
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logo-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2d4a3e"/>
+            <stop offset="100%" stop-color="#4a7c59"/>
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="44" stroke="url(#logo-grad)" stroke-width="8" fill="none" />
+        <path d="M 20 50 A 30 30 0 0 0 80 50" stroke="#4a7c59" stroke-width="4" fill="none" stroke-dasharray="4 3" />
+        <path d="M 50 10 A 40 40 0 0 1 50 90" stroke="#4a7c59" stroke-width="4" fill="none" />
+        <path d="M 32 72 L 32 28 L 56 28 C 66 28 66 44 56 44 L 32 44 M 48 44 L 72 72" stroke="#2d4a3e" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+        <path d="M 62 60 L 74 74 L 74 58" fill="#2d4a3e" />
+      </svg>
+      <div class="logo-text">
+        <span class="logo-title">Rademitrade</span>
+        <span class="logo-domain">www.rademitrade.com</span>
+      </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 Rademitrade & Пергола Групп. Все права защищены.</p>
-    </footer>
+    <div class="nav-actions">
+      <select id="lang-select" class="control-select" onchange="changeLanguage(this.value)">
+        <option value="ru">Русский</option>
+        <option value="en">English</option>
+        <option value="he">עברית (Hebrew)</option>
+        <option value="ar">العربية (Arabic)</option>
+        <option value="zh">中文 (Chinese)</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="fr">Français</option>
+        <option value="tur">Türkçe</option>
+        <option value="kk">Қазақша</option>
+      </select>
 
-    <script>
-        const translations = {
-            ru: {
-                heroTitle: "Премиальные перголы и маркизы",
-                heroDesc: "Индивидуальные архитектурные решения для вашего загородного дома, террасы и бизнеса.",
-                p1Title: "Биоклиматическая пергола",
-                p1Desc: "Алюминиевая конструкция с поворотными ламелями для полного контроля света и вентиляции.",
-                p2Title: "Локтевая маркиза в кассете",
-                p2Desc: "Надежная защита от солнца с электроприводом и датчиками ветра.",
-                p3Title: "Безрамное остекление",
-                p3Desc: "Панорамное остекление террас с возможностью полного сдвигания секций.",
-                buyBtn: "Заказать"
-            },
-            en: {
-                heroTitle: "Premium Pergolas & Awnings",
-                heroDesc: "Custom architectural solutions for your country house, terrace, and business.",
-                p1Title: "Bioclimatic Pergola",
-                p1Desc: "Aluminum structure with rotating louvers for complete light and ventilation control.",
-                p2Title: "Cassette Awning",
-                p2Desc: "Reliable sun protection with electric drive and wind sensors.",
-                p3Title: "Frameless Glazing",
-                p3Desc: "Panoramic terrace glazing with fully retractable sections.",
-                buyBtn: "Order Now"
-            },
-            he: {
-                heroTitle: "פרгоלות ומרקיזות פרימיום",
-                heroDesc: "פתרונות אדריכליים בהתאמה אישית לבית, למרפסת ולעסק שלך.",
-                p1Title: "פרגולה ביוקלימטית",
-                p1Desc: "מבנה אלומיניום עם שלבים מתכווננים לשליטה מלאה באור ובאוורור.",
-                p2Title: "מרקיזת קاسеտ",
-                p2Desc: "הגנה אמינה מפני השמש עם הנעה חשמלית וחיישני רוח.",
-                p3Title: "זיגוג ללא מסגרת",
-                p3Desc: "זיגוג פנורמי למרפסות עם אפשרות לפתיחה מלאה.",
-                buyBtn: "להזמנה"
-            }
-        };
+      <select id="curr-select" class="control-select" onchange="changeCurrency(this.value)">
+        <option value="USD">USD ($)</option>
+        <option value="EUR">EUR (€)</option>
+        <option value="RUB">RUB (₽)</option>
+        <option value="ILS">ILS (₪)</option>
+        <option value="AED">AED (د.إ)</option>
+        <option value="BTC">BTC (₿)</option>
+        <option value="ETH">ETH (Ξ)</option>
+      </select>
 
-        const rates = { RUB: 1, USD: 0.011, EUR: 0.010, ILS: 0.040 };
-        const symbols = { RUB: '₽', USD: '$', EUR: '€', ILS: '₪' };
+      <div class="cart-btn" onclick="showCart()">
+        <i class="fa-solid fa-cart-shopping"></i> <span id="txt-cart">Корзина</span> (<span id="cart-count">0</span>)
+      </div>
+    </div>
+  </header>
 
-        function changeLang() {
-            const lang = document.getElementById('langSelect').value;
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
-            
-            document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
-            document.getElementById('heroDesc').innerText = translations[lang].heroDesc;
-            
-            const titles = document.querySelectorAll('.card-title');
-            const descs = document.querySelectorAll('.card-desc');
-            const btns = document.querySelectorAll('.btn');
-            
-            if(lang === 'en') {
-                titles[0].innerText = translations.en.p1Title;
-                descs[0].innerText = translations.en.p1Desc;
-                titles[1].innerText = translations.en.p2Title;
-                descs[1].innerText = translations.en.p2Desc;
-                titles[2].innerText = translations.en.p3Title;
-                descs[2].innerText = translations.en.p3Desc;
-            } else if(lang === 'he') {
-                titles[0].innerText = translations.he.p1Title;
-                descs[0].innerText = translations.he.p1Desc;
-                titles[1].innerText = translations.he.p2Title;
-                descs[1].innerText = translations.he.p2Desc;
-                titles[2].innerText = translations.he.p3Title;
-                descs[2].innerText = translations.he.p3Desc;
-            } else {
-                titles[0].innerText = translations.ru.p1Title;
-                descs[0].innerText = translations.ru.p1Desc;
-                titles[1].innerText = translations.ru.p2Title;
-                descs[1].innerText = translations.ru.p2Desc;
-                titles[2].innerText = translations.ru.p3Title;
-                descs[2].innerText = translations.ru.p3Desc;
-            }
-            btns.forEach(b => b.innerText = translations[lang].buyBtn);
+  <!-- Realtime Ticker Bar -->
+  <div class="ticker-bar" id="ticker-bar">
+    <div class="ticker-item"><i class="fa-solid fa-sync fa-spin"></i> <span id="txt-loading">Загрузка курсов...</span></div>
+  </div>
+
+  <!-- Crypto Payment Info Banner -->
+  <div class="crypto-banner">
+    <i class="fa-brands fa-bitcoin"></i>
+    <span id="txt-crypto-pay">На нашем сайте возможна оплата криптовалютой (BTC, ETH, USDT)</span>
+  </div>
+
+  <!-- PAGE 1: MALL LOBBY -->
+  <div id="lobby-view" class="page-view active">
+    <div class="lobby-hero">
+      <h1 id="txt-title">Торговый Комплекс Rademitrade</h1>
+      <p id="txt-subtitle">Выберите специализированный магазин для перехода в каталог товаров</p>
+    </div>
+    <div class="stores-grid" id="stores-grid"></div>
+  </div>
+
+  <!-- PAGE 2: INSIDE STORE VIEW -->
+  <div id="store-view" class="page-view">
+    <div id="store-hero" class="store-header-banner">
+      <button class="back-to-mall" onclick="openLobby()" id="txt-back">&larr; Вернуться в Холл</button>
+      <div class="store-hero-content">
+        <h1 id="store-name-title" style="font-size: 30px; color: var(--primary); margin-bottom: 10px; font-weight: 800;"></h1>
+        <p id="store-name-subtitle" style="color: var(--text-muted); line-height: 1.5;"></p>
+        <div id="store-extended-content"></div>
+      </div>
+    </div>
+
+    <!-- Manufacturer Filter Section -->
+    <div id="manufacturer-section" style="display: none;" class="manufacturer-filter">
+      <label id="txt-mfr-label"><i class="fa-solid fa-industry"></i> Производитель:</label>
+      <div class="mfr-buttons" id="mfr-buttons-container">
+        <button class="mfr-btn active" onclick="filterByManufacturer('all')" id="mfr-all">Все</button>
+        <button class="mfr-btn" onclick="filterByManufacturer('Turkey')" id="mfr-turkey">Турция</button>
+        <button class="mfr-btn" onclick="filterByManufacturer('China')" id="mfr-china">Китай</button>
+        <button class="mfr-btn" onclick="filterByManufacturer('Europe')" id="mfr-europe">Европа</button>
+      </div>
+    </div>
+
+    <div class="products-grid" id="store-products-grid"></div>
+  </div>
+
+  <script>
+    const i18n = {
+      ru: {
+        dir: "ltr",
+        title: "Торговый Комплекс Rademitrade",
+        subtitle: "Выберите специализированный магазин для перехода в каталог товаров",
+        cart: "Корзина",
+        back: "← Вернуться в Холл",
+        enter: "Войти в магазин →",
+        buy: "Добавить в корзину",
+        boutique: "Бутик",
+        loading: "Загрузка курсов...",
+        alertCart: "Всего товаров в корзине: ",
+        cryptoPay: "На нашем сайте возможна оплата криптовалютой (BTC, ETH, USDT)",
+        mfrLabel: "Производитель:",
+        mfrAll: "Все",
+        mfrTurkey: "Турция",
+        mfrChina: "Китай",
+        mfrEurope: "Европа",
+        pergolasExtended: {
+          headline: "Искусство создавать тень и комфорт",
+          intro: "Мы создаем пространства, где архитектура встречается с природой. Наш бутик специализируется на премиальных перголах и современных навесах, превращая каждую террасу в идеальное место для отдыха.",
+          features: [
+            "Мировые стандарты: Прямое сотрудничество с ведущими производителями по всему миру позволяет нам предлагать передовые дизайнерские и инженерные решения.",
+            "Эксклюзив по вашим чертежам: Реализуем проекты любой сложности по индивидуальным эскизам и размерам.",
+            "Безупречное качество: Только долговечные, надежные и эстетичные материалы премиум-класса.",
+            "Индивидуальный подход: Персональный менеджер сопровождает вас на всех этапах — от концепции до монтажа.",
+            "Оперативность и выгода: Быстрая доставка точно в срок и честные, приемлемые цены без переплат."
+          ]
+        },
+        stores: {
+          pergolas: { name: "Пергола Групп", desc: "Перголы и навесы премиум-класса. Архитектура тени, уютная вечерняя подсветка и надежная защита от любых погодных условий для вашей террасы.", products: { 101: "Пергола биоклиматическая с LED 4x3м", 102: "Навес для авто из поликарбоната", 103: "Раздвижная алюминиевая пергола люкс", 104: "Биоклиматическая пергола с поворотными ламелями" } },
+          facade: { name: "Фасады и Ландшафт", desc: "Фасадные панели, уличный свет и садовый декор.", products: { 201: "Фасадная плитка из терракоты (м²)", 202: "Ландшафтный светодиодный светильник" } },
+          karts: { name: "Электро Транспорт", desc: "Спортивные картинги, гольф-кары и электротранспорт.", products: { 301: "Спортивный электро-карт 2000W", 302: "Гольф-кар 4-местный LiFePO4" } },
+          beauty: { name: "Бьюти Оборудование", desc: "Аппаратное оборудование для салонов красоты и клиник.", products: { 401: "Аппарат SMAS лифтинга профессиональный" } },
+          pharma: { name: "Фарма Лаборатория", desc: "Лабораторные приборы и медицинское оснащение.", products: { 501: "Центрифуга лабораторная 4000 об/мин" } },
+          custom: { name: "Пром Оборудование", desc: "Промышленное оборудование и станки под заказ.", products: { 601: "ЧПУ фрезерный станок по металлу 5 осей" } },
+          misc: { name: "Радеми Электроника", desc: "Разнообразная электроника и спецпредложения.", products: { 701: "Набор беспроводного электроинструмента" } }
         }
-
-        function changeCurr() {
-            const curr = document.getElementById('currSelect').value;
-            const rate = rates[curr];
-            const sym = symbols[curr];
-            
-            document.querySelectorAll('.price').forEach(el => {
-                const baseVal = parseFloat(el.getAttribute('data-price'));
-                const converted = Math.round(baseVal * rate);
-                el.innerText = converted.toLocaleString() + ' ' + sym;
-            });
+      },
+      en: {
+        dir: "ltr",
+        title: "Rademitrade Virtual Shopping Mall",
+        subtitle: "Select a specialized store to view product catalog",
+        cart: "Cart",
+        back: "← Back to Lobby",
+        enter: "Enter Store →",
+        buy: "Add to Cart",
+        boutique: "Boutique",
+        loading: "Loading rates...",
+        alertCart: "Total items in cart: ",
+        cryptoPay: "Cryptocurrency payments are accepted on our website (BTC, ETH, USDT)",
+        mfrLabel: "Manufacturer:",
+        mfrAll: "All",
+        mfrTurkey: "Turkey",
+        mfrChina: "China",
+        mfrEurope: "Europe",
+        pergolasExtended: {
+          headline: "The Art of Creating Shade and Comfort",
+          intro: "We create spaces where architecture meets nature. Our boutique specializes in premium pergolas and modern canopies, turning every terrace into an ideal relaxing space.",
+          features: [
+            "Global Standards: Direct cooperation with leading global manufacturers brings you advanced design and engineering solutions.",
+            "Custom Designs: We implement projects of any complexity based on individual sketches and dimensions.",
+            "Flawless Quality: Only durable, reliable, and aesthetic premium-class materials.",
+            "Individual Approach: A personal manager accompanies you through all stages from concept to installation.",
+            "Speed & Value: Fast delivery on time and fair, reasonable prices without overpayments."
+          ]
+        },
+        stores: {
+          pergolas: { name: "Pergola Group", desc: "Premium pergolas & modern canopies. Architectural shadow control, soft ambient lighting, and complete weather protection for your outdoor living space.", products: { 101: "Bioclimatic Pergola LED 4x3m", 102: "Polycarbonate Carport Canopy", 103: "Luxury Sliding Aluminum Pergola", 104: "Bioclimatic Pergola with Rotating Louvers" } },
+          facade: { name: "Facade & Landscape", desc: "Facade panels, outdoor lighting, and landscape decor.", products: { 201: "Terracotta Facade Tile (sq.m)", 202: "Landscape LED Garden Light" } },
+          karts: { name: "Electro Motors", desc: "Racing karts, golf carts, and electric vehicles.", products: { 301: "Pro Electric Racing Kart 2000W", 302: "4-Seater Golf Cart LiFePO4" } },
+          beauty: { name: "Beauty Tech Machinery", desc: "Professional beauty salon and medical equipment.", products: { 401: "Professional SMAS Lifting Machine" } },
+          pharma: { name: "Pharma & Lab Systems", desc: "Laboratory instruments and pharmaceutical machinery.", products: { 501: "Lab Centrifuge 4000 RPM" } },
+          custom: { name: "Custom Industrial", desc: "Industrial machinery, CNC routers, and lines.", products: { 601: "5-Axis Metal CNC Milling Machine" } },
+          misc: { name: "Rademi General Store", desc: "General consumer electronics and special offers.", products: { 701: "Cordless Power Tool Combo Kit" } }
         }
-    </script>
+      },
+      he: {
+        dir: "rtl",
+        title: "מרכז הקניות Rademitrade",
+        subtitle: "בחר חנות מתמחה כדי לצפות בקטלוג המוצרים",
+        cart: "עגלת קניות",
+        back: "חזרה לובי →",
+        enter: "← כנס לחנות",
+        buy: "הוסף לעגלה",
+        boutique: "בוטיק",
+        loading: "טוען שערים...",
+        alertCart: "סה\"כ פריטים בעגלה: ",
+        cryptoPay: "ניתן לשלם במטבעות קריפטוגרפיים באתר שלנו (BTC, ETH, USDT)",
+        mfrLabel: "יצרן:",
+        mfrAll: "הכול",
+        mfrTurkey: "טורקיה",
+        mfrChina: "סין",
+        mfrEurope: "אירופה",
+        pergolasExtended: {
+          headline: "האמנות של יצירת צל ונוחות",
+          intro: "אנו יוצרים מרחבים שבהם ארכיטקטורה פוגשת טבע. הבוטיק שלנו מתמחה בפרגולות יוקרתיות וסוככים מודרניים, והופך כל מרפסת למקום מושלם למנוחה.",
+          features: [
+            "סטנדרטים עולמיים: שיתוף פעולה ישיר עם יצרנים מובילים ברחבי העולם מאפשר לנו להציע פתרונות עיצוביים והנדסיים מתקדמים.",
+            "עיצוב אישי לפי שרטוטים: אנו מממשים פרויקטים מכל מורכבות לפי סקיצות ומידות אישיות.",
+            "איכות ללא פשרות: חומרים עמידים, אמינים ואסתטיים ברמה הגבוהה ביותר.",
+            "גישה אישית: מנהל אישי מלווה אתכם בכל השלבים — מהקונцепציה ועד ההתקנה.",
+            "יעילות ומשתלמות: אספקה ​​מהירה בזמן ומחירים הוגנים ללא תשלומים מיותרים."
+          ]
+        },
+        stores: {
+          pergolas: { name: "פרגולה גרופ", desc: "פרגולות וסוככים יוקרתיים. ארכיטקטורת צל, תאורת אווירה מרהיבה והגנה מלאה מכל מזג אוויר לחצר ולמרפסת.", products: { 101: "פרגולה ביו-אקלימית LED 4x3 מטר", 102: "סככת חניה מפוליקרבונט", 103: "פרגולת אלומיניום נפתחת יוקרתית", 104: "פרגולה ביו-אקלימית עם להבים מתכווננים" } },
+          facade: { name: "חיפוי ועיצוב נוף", desc: "חיפוי קירות, תאורת חוץ ועיצוב נוף.", products: { 201: "אריחי טרקוטה לחיפוי חוץ (מ\"ר)", 202: "תאורת לד לגן ולנוף" } },
+          karts: { name: "מנועים חשמליים", desc: "קארטינג מרוצים, רכבי גולף ורכבים חשמליים.", products: { 301: "קארטינג מרוצים חשמלי 2000W", 302: "רכב גולף 4 מקומות LiFePO4" } },
+          beauty: { name: "ציוד טכנולוגי ליופי", desc: "ציוד מקצועי למכוני יופי ומקומות רפואיים.", products: { 401: "מכשיר מתיחת פנים מקצועי SMAS" } },
+          pharma: { name: "ציוד מעבדה ותרופות", desc: "מכשירי מעבדה וציוד פרמצבטי.", products: { 501: "צנטריפוגה למעבדה 4000 סל\"ד" } },
+          custom: { name: "ציוד תעשייתי בהתאמה", desc: "ציוד תעשייתי, מכונות CNC לפי הזמנה.", products: { 601: "מכונת כרסום CNC מתכת 5 צירים" } },
+          misc: { name: "ראדמי כללי", desc: "מוצרי אלקטרוניקה כלליים והצעות מיוחדות.", products: { 701: "ערכת כלי עבודה נטענים" } }
+        }
+      },
+      ar: {
+        dir: "rtl",
+        title: "مركز التسوق Rademitrade",
+        subtitle: "اختر متجراً متخصصاً للانتقال إلى كتالوج المنتجات",
+        cart: "سلة التسوق",
+        back: "العودة للردهة →",
+        enter: "← دخول المتجر",
+        buy: "أضف إلى السلة",
+        boutique: "بوتيك",
+        loading: "جاري تحميل الأسعار...",
+        alertCart: "إجمالي المنتجات في السلة: ",
+        cryptoPay: "يمكنك الدفع باستخدام العملات المشفرة على موقعنا (BTC, ETH, USDT)",
+        mfrLabel: "الشركة المصنعة:",
+        mfrAll: "الكل",
+        mfrTurkey: "تركيا",
+        mfrChina: "الصين",
+        mfrEurope: "أوروبا",
+        pergolasExtended: {
+          headline: "فن صنع الظل والراحة",
+          intro: "نحن نخلق مساحات يلتقي فيها التصميم المعماري بالطبيعة. يتخصص بوتيكنا في البرجولات الفاخرة والمظلات الحديثة، مما يحول كل شرفة إلى مساحة استرخاء مثالية.",
+          features: [
+            "معايير عالمية: التعاون المباشر مع الشركات المصنعة الرائدة عالمياً يتيح لنا تقديم حلول تصميمية وهندسية متقدمة.",
+            "تصاميم مخصصة: ننفذ مشاريع بأي تعقيد بناءً على الرسومات والأبعاد الفردية.",
+            "جودة لا غبار عليها: مواد ممتازة ومتينة وموثوقة وجمالية.",
+            "نهج فردي: يرافقك مدير شخصي في جميع المراحل من الفكرة حتى التركيب.",
+            "الكفاءة والقيمة: توصيل سريع في الوقت المحدد وأسعار عادلة ومعقولة دون زيادات مبالغ فيها."
+          ]
+        },
+        stores: {
+          pergolas: { name: "مجموعة بيرجولا", desc: "مظلات وبرجولات فاخرة. هندسة الظل والإضاءة الليلية الدافئة وحماية متكاملة من وتقلبات الطقس لترأسك وفنائك.", products: { 101: "برجولة مناخية حيوية LED 4x3م", 102: "مظلة سيارات من البولي كربونات", 103: "برجولة ألومنيوم متحركة فاخرة", 104: "برجولة مناخية بشرائح دوارة" } },
+          facade: { name: "الواجهات والحدائق", desc: "واجهات وتصميم الحدائق وإضاءة خارجية.", products: { 201: "بلاط واجهات طين تراكوتا (متر مربع)", 202: "مصباح إضاءة حدائق LED" } },
+          karts: { name: "محركات كهربائية", desc: "سيارات سباق كارتينغ وعربات جولف كهربائية.", products: { 301: "سيارة كارتينغ كهربائية احترافية 2000 واط", 302: "عربة جولف 4 مقاعد LiFePO4" } },
+          beauty: { name: "تكنولوجيا التجميل", desc: "معدات احترافية لصالونات التجميل والعيادات.", products: { 401: "جهاز شد الوجه الاحترافي SMAS" } },
+          pharma: { name: "مختبرات الأدوية", desc: "أجهزة مختبرات ومعدات صيدلانية.", products: { 501: "جهاز طرد مركزي للمختبرات 4000 دورة/دقيقة" } },
+          custom: { name: "الصناعات المخصصة", desc: "معدات صنعتی وآلات CNC حسب الطلب.", products: { 601: "آلة تفريز معادن CNC ذات 5 محاور" } },
+          misc: { name: "متجر راديمي العام", desc: "إلكترونيات عامة وعروض خاصة.", products: { 701: "طقم أدوات كهربائية لاسلكية" } }
+        }
+      },
+      zh: {
+        dir: "ltr",
+        title: "Rademitrade 虚拟购物中心",
+        subtitle: "选择一家精品店进入商品目录",
+        cart: "购物车",
+        back: "← 返回大厅",
+        enter: "进入商店 →",
+        buy: "加入购物车",
+        boutique: "精品店",
+        loading: "加载汇率...",
+        alertCart: "购物车中的商品总数：",
+        cryptoPay: "本网站支持加密货币支付（BTC, ETH, USDT）",
+        mfrLabel: "制造商：",
+        mfrAll: "全部",
+        mfrTurkey: "土耳其",
+        mfrChina: "中国",
+        mfrEurope: "欧洲",
+        pergolasExtended: {
+          headline: "创造阴凉与舒适的艺术",
+          intro: "我们打造建筑与自然交融的空间。我们的精品店专注于高端凉亭和现代遮阳棚，将每一个露台变成完美的休闲场所。",
+          features: [
+            "全球标准：与全球领先制造商直接合作，为您提供前沿的设计与工程解决方案。",
+            "个性化定制：根据您的个性化图纸和尺寸定制各种复杂度的项目。",
+            "无瑕品质：只选用耐用、可靠且美观的高级材料。",
+            "一对一服务：专属经理全程陪同，从概念设计到最终安装。",
+            "高效实惠：准时快捷配送，价格公正合理，绝无隐形消费。"
+          ]
+        },
+        stores: {
+          pergolas: { name: "Pergola Group (凉亭集团)", desc: "高端凉亭与遮阳棚。融合建筑光影线美学、温馨夜间照明与全天候防风防雨功能，打造惬意户外生活空间。", products: { 101: "智能 LED 生物气候凉亭 4x3米", 102: "聚碳酸酯车棚", 103: "豪华铝合金电动推拉凉亭", 104: "可调节叶片生物气候凉亭" } },
+          facade: { name: "外墙与景观设计", desc: "外墙板、户外照明和景观装饰。", products: { 201: "陶土外墙砖（平方米）", 202: "景观 LED 户外照明灯" } },
+          karts: { name: "电动电机与车辆", desc: "电动卡丁车、高尔夫球车和电动交通工具。", products: { 301: "专业电动竞速卡丁车 2000W", 302: "4座 LiFePO4 高尔夫球车" } },
+          beauty: { name: "美容科技设备", desc: "美容院和诊所的专业设备。", products: { 401: "专业 SMAS 超声刀拉皮仪" } },
+          pharma: { name: "医药实验室", desc: "实验室仪器和制药设备。", products: { 501: "实验室台式离心机 4000转/分" } },
+          custom: { name: "定制工业设备", desc: "定制工业设备、数控机床及生产线。", products: { 601: "5轴金属数控铣床" } },
+          misc: { name: "拉德米综合百货", desc: "各类消费电子产品及特惠商品。", products: { 701: "无线电动工具套装" } }
+        }
+      },
+      es: {
+        dir: "ltr",
+        title: "Centro Comercial Rademitrade",
+        subtitle: "Seleccione una tienda especializada para ver el catálogo",
+        cart: "Carrito",
+        back: "← Volver al Vestíbulo",
+        enter: "Entrar a la tienda →",
+        buy: "Añadir al carrito",
+        boutique: "Boutique",
+        loading: "Cargando tipos...",
+        alertCart: "Artículos totales en carrito: ",
+        cryptoPay: "Se acepta pago con criptomonedas en nuestro sitio web (BTC, ETH, USDT)",
+        mfrLabel: "Fabricante:",
+        mfrAll: "Todos",
+        mfrTurkey: "Turquía",
+        mfrChina: "China",
+        mfrEurope: "Europa",
+        pergolasExtended: {
+          headline: "El Arte de Crear Sombra y Confort",
+          intro: "Creamos espacios donde la arquitectura se encuentra con la naturaleza. Nuestra boutique está especializada en pérgolas premium y marquesinas modernas, convirtiendo cada terraza en el lugar de descanso perfecto.",
+          features: [
+            "Estándares globales: Cooperación directa con fabricantes líderes de todo el mundo para ofrecer soluciones avanzadas de diseño e ingeniería.",
+            "Diseño a medida: Realizamos proyectos de cualquier complejidad según bocetos y dimensiones individuales.",
+            "Calidad impecable: Únicamente materiales de primera clase duraderos, fiables y estéticos.",
+            "Atención personalizada: Un gestor personal le acompaña en todas las etapas, desde el concepto hasta la instalación.",
+            "Rapidez y valor: Entrega rápida puntual y precios justos y razonables sin sobrecostes."
+          ]
+        },
+        stores: {
+          pergolas: { name: "Pergola Group", desc: "Pérgolas y marquesinas de alta gama. Arquitectura de sombras, elegante iluminación nocturna y máxima protección climatológica para tu terraza.", products: { 101: "Pérgola Bioclimática LED 4x3m", 102: "Marquesina para Coche de Policabonato", 103: "Pérgola Deslizante de Aluminio de Lujo", 104: "Pérgola Bioclimática de Lamas Orientables" } },
+          facade: { name: "Fachadas y Paisajismo", desc: "Paneles de fachada, iluminación exterior y paisajismo.", products: { 201: "Azulejo de Terracota para Fachada (m²)", 202: "Luz LED para Jardín y Paisaje" } },
+          karts: { name: "Motores Eléctricos", desc: "Karts de carreras, carros de golf y vehículos eléctricos.", products: { 301: "Kart Eléctrico de Carreras 2000W", 302: "Carrito de Golf de 4 Plazas LiFePO4" } },
+          beauty: { name: "Tecnología Estética", desc: "Equipamiento profesional para estética y clínicas.", products: { 401: "Máquina Profesional de Lifting SMAS" } },
+          pharma: { name: "Laboratorio Farmacéutico", desc: "Equipos de laboratorio e instrumental farmacéutico.", products: { 501: "Centrífuga de Laboratorio 4000 RPM" } },
+          custom: { name: "Industria Personalizada", desc: "Maquinaria industrial personalizada y CNC.", products: { 601: "Fresadora CNC de Metal de 5 Ejes" } },
+          misc: { name: "Tienda General Rademi", desc: "Electrónica general y ofertas especiales.", products: { 701: "Juego de Herramientas Inalámbricas" } }
+        }
+      },
+      de: {
+        dir: "ltr",
+        title: "Rademitrade Einkaufszentrum",
+        subtitle: "Wählen Sie ein Fachgeschäft, um den Katalog zu öffnen",
+        cart: "Warenkorb",
+        back: "← Zurück zur Lobby",
+        enter: "Shop betreten →",
+        buy: "In den Warenkorb",
+        boutique: "Boutique",
+        loading: "Kurse werden geladen...",
+        alertCart: "Gesamtanzahl Artikel im Warenkorb: ",
+        cryptoPay: "Auf unserer Website ist die Zahlung mit Kryptowährung möglich (BTC, ETH, USDT)",
+        mfrLabel: "Hersteller:",
+        mfrAll: "Alle",
+        mfrTurkey: "Türkei",
+        mfrChina: "China",
+        mfrEurope: "Europa",
+        pergolasExtended: {
+          headline: "Die Kunst, Schatten und Komfort zu schaffen",
+          intro: "Wir schaffen Räume, in denen Architektur auf Natur trifft. Unsere Boutique ist auf Premium-Pergolen und moderne Überdachungen spezialisiert und macht jede Terrasse zu einem perfekten Erholungsort.",
+          features: [
+            "Weltstandards: Direkte Zusammenarbeit mit führenden Herstellern weltweit für fortschrittliche Design- und Ingenieurlösungen.",
+            "Maßgefertigtes Design: Wir realisieren Projekte jeder Komplexität nach individuellen Skizzen und Abmessungen.",
+            "Makellose Qualität: Nur langlebige, zuverlässige und ästhetische Premium-Materialien.",
+            "Individuelle Betreuung: Ein persönlicher Manager begleitet Sie von der Konzeption bis zur Montage.",
+            "Effizienz und Fairness: Termingerechte, schnelle Lieferung und faire Preise ohne Aufschläge."
+          ]
+        },
+        stores: {
+          pergolas: { name: "Pergola Group", desc: "Exklusive Pergolen und Überdachungen. Schattengestaltung, gemütliche Abendbeleuchtung und zuverlässiger Allwetter-Schutz für Terrasse und Garten.", products: { 101: "Bioklimatische LED Pergola 4x3m", 102: "Polycarbonat Carport Überdachung", 103: "Luxus Schiebe-Aluminium-Pergola", 104: "Bioklimatische Pergola mit Lamellen" } },
+          facade: { name: "Fassade & Landschaft", desc: "Fassadenplatten, Außenbeleuchtung und Garten am Bau.", products: { 201: "Terrakotta Fassadenfliese (m²)", 202: "LED Landschafts-Gartenleuchte" } },
+          karts: { name: "Elektromotoren", desc: "Rennkarts, Golfcaddies und Elektrofahrzeuge.", products: { 301: "Profi Elektro-Rennkart 2000W", 302: "4-Sitzer Golfcart LiFePO4" } },
+          beauty: { name: "Kosmetik Technologie", desc: "Professionelle Geräte für Kosmetikstudios und Kliniken.", products: { 401: "Professionelles SMAS-Lifting-Gerät" } },
+          pharma: { name: "Pharma & Labor", desc: "Laborgeräte und pharmazeutische Anlagen.", products: { 501: "Laborzentrifuge 4000 U/min" } },
+          custom: { name: "Industrie nach Maß", desc: "Industriemaschinen und CNC-Anlagen nach Maß.", products: { 601: "5-Achsen-Metall-CNC-Fräsmaschine" } },
+          misc: { name: "Rademi Allgemein", desc: "Unterhaltungselektronik und Sonderangebote.", products: { 701: "Akku-Elektrowerkzeug-Set" } }
+        }
+      },
+      fr: {
+        dir: "ltr",
+        title: "Centre Commercial Rademitrade",
+        subtitle: "Choisissez une boutique spécialisée pour voir le catalogue",
+        cart: "Panier",
+        back: "← Retour au Hall",
+        enter: "Entrer dans la boutique →",
+        buy: "Ajouter au panier",
+        boutique: "Boutique",
+        loading: "Chargement des taux...",
+        alertCart: "Total d'articles dans le panier: ",
+        cryptoPay: "Le paiement par cryptomonnaie est accepted sur notre site (BTC, ETH, USDT)",
+        mfrLabel: "Fabricant :",
+        mfrAll: "Tous",
+        mfrTurkey: "Turquie",
+        mfrChina: "Chine",
+        mfrEurope: "Europe",
+        pergolasExtended: {
+          headline: "L'art de créer ombre et confort",
+          intro: "Nous créons des espaces où l'architecture rencontre la nature. Notre boutique est spécialisée dans les pergolas haut de gamme et les auvents modernes, transformant chaque terrasse en un lieu de détente idéal.",
+          features: [
+            "Normes mondiales : Coopération directe avec les principaux fabricants mondiaux pour offrir des solutions de design et d'ingénierie avancées.",
+            "Sur-mesure selon vos plans : Réalisation de projets de toute complexité selon des croquis et dimensions personnalisés.",
+            "Qualité irréprochable : Uniquement des matériaux haut de gamme durables, fiables et esthétiques.",
+            "Approche individuelle : Un gestionnaire personnel vous accompagne à toutes les étapes, de la conception à l'installation.",
+            "Rapidité et rentabilité : Livraison rapide dans les délais et prix justes et raisonnables sans surcoût."
+          ]
+        },
+        stores: {
+          pergolas: { name: "Pergola Group", desc: "Pergolas et auvents haut de gamme. Design architectural d'ombre, éclairage d'ambiance et protection solaire optimale pour votre terrasse.", products: { 101: "Pergola Bioclimatique LED 4x3m", 102: "Abris de Voiture en Polycarbonate", 103: "Pergola Coulissante en Aluminium Luxe", 104: "Pergola Bioclimatique à Lames Orientables" } },
+          facade: { name: "Façade & Paysage", desc: "Panneaux de façade, éclairage extérieur et paysage.", products: { 201: "Carreau de Façade en Terre Cuite (m²)", 202: "Lampe LED Paysagère de Jardin" } },
+          karts: { name: "Moteurs Électriques", desc: "Karts de course, voitures de golf et véhicules électriques.", products: { 301: "Kart de Course Électrique Pro 2000W", 302: "Voiture de Golf 4 Places LiFePO4" } },
+          beauty: { name: "Technologie Beauté", desc: "Équipement professionnel pour instituts de beauté.", products: { 401: "Appareil de Lifting Professionnel SMAS" } },
+          pharma: { name: "Laboratoire Pharma", desc: "Instruments de laboratoire et matériel pharmaceutique.", products: { 501: "Centrifugeuse de Laboratoire 4000 tr/min" } },
+          custom: { name: "Industrie Sur Mesure", desc: "Équipement industriel sur mesure et machines CNC.", products: { 601: "Fraiseuse CNC Métal 5 Axes" } },
+          misc: { name: "Rademi Général", desc: "Électronique grand public et offres spéciales.", products: { 701: "Kit d'Outillage Électrique Sans Fil" } }
+        }
+      },
+      tur: {
+        dir: "ltr",
+        title: "Rademitrade Alışveriş Merkezi",
+        subtitle: "Kataloğu görüntülemek için uzmanlaşmış bir mağaza seçin",
+        cart: "Sepet",
+        back: "← Lobiye Dön",
+        enter: "Mağazaya Gir →",
+        buy: "Sepete Ekle",
+        boutique: "Butik",
+        loading: "Kurlar yükleniyor...",
+        alertCart: "Sepetteki toplam ürün: ",
+        cryptoPay: "Web sitemizde kripto para ile ödeme yapılabilir (BTC, ETH, USDT)",
+        mfrLabel: "Üretici:",
+        mfrAll: "Tümü",
+        mfrTurkey: "Türkiye",
+        mfrChina: "Çin",
+        mfrEurope: "Avrupa",
+        pergolasExtended: {
+          headline: "Gölge力和 Konfor Yaratma Sanatı",
+          intro: "Mimarinin doğayla buluştuğu mekanlar yaratıyoruz. Butiğimiz, her terası ideal bir dinlenme alanına dönüştüren premium pergoleler ve modern sundurmalar konusunda uzmanlaşmıştır.",
+          features: [
+            "Dünya Standartları: Dünyanın önde gelen üreticileriyle doğrudan iş birliği yaparak gelişmiş tasarım ve mühendislik çözümleri sunuyoruz.",
+            "Özel Çizimlerinize Göre Tasarım: Bireysel taslak ve ölçülere göre her karmaşıklıkta projeyi hayata geçiriyoruz.",
+            "Kusursuz Kalite: Yalnızca dayanıklı, güvenilir ve estetik birinci sınıf malzemeler.",
+            "Bireysel Yaklaşım: Konseptten montaja kadar tüm aşamalarda kişisel bir yönetici size eşlik eder.",
+            "Hız ve Avantaj: Zamanında hızlı teslimat ve ek ücret ödemeden adil, makul fiyatlar."
+          ]
+        },
+        stores: {
+          pergolas: { name: "Pergola Group", desc: "Premium pergole ve modern sundurmalar. Gölge mimarisi, şık akşam aydınlatması ve terasınız için tam hava koruması.", products: { 101: "Bioklimatik LED Pergola 4x3m", 102: "Polikarbonat Araç Sundurması", 103: "Lüks Sürgülü Alüminyum Pergola", 104: "Döner Panjurlu Bioklimatik Pergola" } },
+          facade: { name: "Cephe & Peyzaj", desc: "Cephe panelleri, dış aydınlatma ve peyzaj.", products: { 201: "Terrakotta Cephe Kaplama Karosu (m²)", 202: "Peyzaj LED Bahçe Aydınlatması" } },
+          karts: { name: "Elektrikli Motorlar", desc: "Yarış kartingleri, golf arabaları ve elektrikli araçlar.", products: { 301: "Pro Elektrikli Yarış Kartingi 2000W", 302: "4 Kişilik Golf Arabası LiFePO4" } },
+          beauty: { name: "Güzellik Teknolojisi", desc: "Güzellik salonları ve klinikler için profesyonel cihazlar.", products: { 401: "Profesyonel SMAS Yüz Germe Cihazı" } },
+          pharma: { name: "İlaç & Laboratuvar", desc: "Laboratuvar cihazları ve ilaç ekipmanları.", products: { 501: "Laboratuvar Santrifüjü 4000 dev/dak" } },
+          custom: { name: "Özel Endüstriyel", desc: "Özel üretim endüstriyel makineler ve CNC.", products: { 601: "5 Eksenli Metal CNC Freze Makinesi" } },
+          misc: { name: "Rademi Genel Mağaza", desc: "Genel tüketici elektroniği ve özel teklifler.", products: { 701: "Kablosuz Elektrikli El Aletleri Seti" } }
+        }
+      },
+      kk: {
+        dir: "ltr",
+        title: "Rademitrade Сауда Орталығы",
+        subtitle: "Тауарлар каталогын қарау үшін мамандандырылған дүкенді таңдаңыз",
+        cart: "Себет",
+        back: "← Холлға қайту",
+        enter: "Дүкенге кіру →",
+        buy: "Себетке салу",
+        boutique: "Бутик",
+        loading: "Бағамдар жүктелуде...",
+        alertCart: "Себеттегі барлық тауар саны: ",
+        cryptoPay: "Бiздiң сайтта криптовалютамен төлеуге болады (BTC, ETH, USDT)",
+        mfrLabel: "Өндіруші:",
+        mfrAll: "Барлығы",
+        mfrTurkey: "Түркия",
+        mfrChina: "Қытай",
+        mfrEurope: "Еуропа",
+        pergolasExtended: {
+          headline: "Көлеңке мен жайлылық жасау өнері",
+          intro: "Біз сәулет өнері табиғатпен ұштасатын кеңістіктер жасаймыз. Біздің бутик премиум перголалар мен заманауи шатырларға маманданған, әрбір террасаны тамаша демалыс орнына айналдырады.",
+          features: [
+            "Әлемдік стандарттар: Бүкіл әлем бойынша жетекші өндірушілермен тікелей ынтымақтастық озық дизайн және инженерлік шешімдерді ұсынуға мүмкіндік береді.",
+            "Жеке сызбалар бойынша эксклюзив: Кез келген күрделіліктегі жобаларды жеке эскиздер мен өлшемдер бойынша іске асырамыз.",
+            "Мінсіз сапа: Тек төзімді, сенімді және эстетикалық премиум-класс материалдары.",
+            "Жеке көзқарас: Дербес менеджер сізді концепциядан бастап монтаждауға дейінгі барлық кезеңдерде сүйемелдейді.",
+            "Жеделдік пен тиімділік: Уақытында жылдам жеткізу және артық төлемсіз адал, қолжетімді бағалар."
+          ]
+        },
+        stores: {
+          pergolas: { name: "Пергола Групп", desc: "Премиум-кластағы перголалар мен шатырлар. Көлеңке сәулеті, жайлы кешкі жарық және террасаңызды ауа райынан сенімді қорғау.", products: { 101: "LED жарығы бар биоклиматтық пергола 4x3м", 102: "Поликарбонатты автокөлік баспанасы", 103: "Люкс санаттағы жылжымалы алюминий пергола", 104: "Бұрылмалы ламелері бар биоклиматтық пергола" } },
+          facade: { name: "Фасад және Ландшафт", desc: "Фасадтық панельдер, көше жарығы және ландшафт.", products: { 201: "Терракота фасадтық плиткасы (м²)", 202: "Ландшафтық LED бақша шырағы" } },
+          karts: { name: "Электро Көліктер", desc: "Спорттық картинги, гольф-карлар және электр көлігі.", products: { 301: "Кәсіби электрлі жарыс картингі 2000W", 302: "4 орындық гольф-кар LiFePO4" } },
+          beauty: { name: "Бьюти Технологиялар", desc: "Сұлулық салондары мен клиникаларға арналған жабдықтар.", products: { 401: "Кәсіби SMAS лифтинг аппараты" } },
+          pharma: { name: "Фарма Зертхана", desc: "Зертханалық аспаптар мен фармацевтикалық жабдықтар.", products: { 501: "Зертханалық центрифуга 4000 айн/мин" } },
+          custom: { name: "Өнеркәсіптік Жабдықтар", desc: "Тапсырыс бойынша өнеркәсіптік станоктар мен желілер.", products: { 601: "Металл өңдейтін 5 осьті ЧПУ фрезер станогы" } },
+          misc: { name: "Радеми Электроника", desc: "Әртүрлі электроника және арнайы ұсыныстар.", products: { 701: "Сымсыз электр құралдарының жинағы" } }
+        }
+      }
+    };
+
+    const storesCatalog = {
+      pergolas: {
+        img: "1000006578_5.jpg",
+        products: [
+          { id: 101, priceUSD: 2450, manufacturer: "Turkey", img: "1000006578_5.jpg" },
+          { id: 102, priceUSD: 890, manufacturer: "China", img: "https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?w=500" },
+          { id: 103, priceUSD: 3400, manufacturer: "Europe", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500" },
+          { id: 104, priceUSD: 2900, manufacturer: "Turkey", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500" }
+        ]
+      },
+      facade: {
+        img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600",
+        products: [
+          { id: 201, priceUSD: 45, manufacturer: "Europe", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500" },
+          { id: 202, priceUSD: 28.5, manufacturer: "China", img: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=500" }
+        ]
+      },
+      karts: {
+        img: "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=600",
+        products: [
+          { id: 301, priceUSD: 1850, manufacturer: "China", img: "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=500" },
+          { id: 302, priceUSD: 4300, manufacturer: "Europe", img: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=500" }
+        ]
+      },
+      beauty: {
+        img: "https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=600",
+        products: [
+          { id: 401, priceUSD: 3200, manufacturer: "Europe", img: "https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=500" }
+        ]
+      },
+      pharma: {
+        img: "https://images.unsplash.com/photo-1579165466541-71e24090a25c?w=600",
+        products: [
+          { id: 501, priceUSD: 670, manufacturer: "China", img: "https://images.unsplash.com/photo-1579165466541-71e24090a25c?w=500" }
+        ]
+      },
+      custom: {
+        img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600",
+        products: [
+          { id: 601, priceUSD: 12500, manufacturer: "Europe", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500" }
+        ]
+      },
+      misc: {
+        img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600",
+        products: [
+          { id: 701, priceUSD: 120, manufacturer: "China", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" }
+        ]
+      }
+    };
+
+    let currentLang = 'ru';
+    let currentCurrency = 'USD';
+    let currentStoreKey = null;
+    let currentManufacturerFilter = 'all';
+    let cartCount = 0;
+
+    let rates = { USD: 1, EUR: 0.92, RUB: 90.5, ILS: 3.70, AED: 3.67, BTC: 0.000015, ETH: 0.00032 };
+    const currSymbols = { USD: "$", EUR: "€", RUB: "₽", ILS: "₪", AED: "د.إ", BTC: "₿ ", ETH: "Ξ " };
+
+    async function fetchLiveRates() {
+      try {
+        const resFiat = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        const dataFiat = await resFiat.json();
+        rates.EUR = dataFiat.rates.EUR;
+        rates.RUB = dataFiat.rates.RUB;
+        rates.ILS = dataFiat.rates.ILS;
+        rates.AED = dataFiat.rates.AED;
+
+        const resCrypto = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
+        const dataCrypto = await resCrypto.json();
+        rates.BTC = 1 / dataCrypto.bitcoin.usd;
+        rates.ETH = 1 / dataCrypto.ethereum.usd;
+
+        renderTicker(dataCrypto.bitcoin.usd, dataCrypto.ethereum.usd);
+      } catch (err) {
+        renderTicker(65000, 3100);
+      }
+    }
+
+    function renderTicker(btcPrice, ethPrice) {
+      const ticker = document.getElementById('ticker-bar');
+      ticker.innerHTML = `
+        <div class="ticker-item"><i class="fa-brands fa-bitcoin" style="color:#d97742"></i> BTC: <span class="val">$${btcPrice.toLocaleString()}</span></div>
+        <div class="ticker-item"><i class="fa-brands fa-ethereum" style="color:#4a7c59"></i> ETH: <span class="val">$${ethPrice.toLocaleString()}</span></div>
+        <div class="ticker-item">EUR/USD: <span class="val">${(1/rates.EUR).toFixed(4)}</span></div>
+        <div class="ticker-item">USD/RUB: <span class="val">${rates.RUB.toFixed(2)}</span></div>
+        <div class="ticker-item">USD/ILS: <span class="val">${rates.ILS.toFixed(2)}</span></div>
+        <div class="ticker-item">USD/AED: <span class="val">${rates.AED.toFixed(2)}</span></div>
+      `;
+    }
+
+    function formatPrice(priceUSD) {
+      const val = priceUSD * rates[currentCurrency];
+      const sym = currSymbols[currentCurrency];
+      if (currentCurrency === 'BTC' || currentCurrency === 'ETH') {
+        return `${sym}${val.toFixed(5)}`;
+      }
+      return `${sym}${val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      const dict = i18n[lang];
+      document.dir = dict.dir;
+
+      document.getElementById('txt-title').innerText = dict.title;
+      document.getElementById('txt-subtitle').innerText = dict.subtitle;
+      document.getElementById('txt-cart').innerText = dict.cart;
+      document.getElementById('txt-back').innerText = dict.back;
+      document.getElementById('txt-crypto-pay').innerText = dict.cryptoPay;
+      document.getElementById('txt-mfr-label').innerHTML = `<i class="fa-solid fa-industry"></i> ${dict.mfrLabel}`;
+      document.getElementById('mfr-all').innerText = dict.mfrAll;
+      document.getElementById('mfr-turkey').innerText = dict.mfrTurkey;
+      document.getElementById('mfr-china').innerText = dict.mfrChina;
+      document.getElementById('mfr-europe').innerText = dict.mfrEurope;
+
+      renderLobbyStores();
+      if (currentStoreKey) openStore(currentStoreKey);
+    }
+
+    function changeCurrency(curr) {
+      currentCurrency = curr;
+      if (currentStoreKey) openStore(currentStoreKey);
+    }
+
+    function renderLobbyStores() {
+      const grid = document.getElementById('stores-grid');
+      const dict = i18n[currentLang];
+      let html = '';
+      let index = 1;
+
+      for (let key in storesCatalog) {
+        const storeInfo = dict.stores[key];
+        const storeData = storesCatalog[key];
+        html += `
+          <div class="store-front" onclick="openStore('${key}')">
+            <div class="store-banner" style="background-image: url('${storeData.img}')">
+              <div class="store-overlay"></div>
+              <span class="store-badge">${dict.boutique} #${index++}</span>
+            </div>
+            <div class="store-body">
+              <div class="store-title">${storeInfo.name}</div>
+              <div class="store-desc">${storeInfo.desc}</div>
+              <button class="enter-btn">${dict.enter}</button>
+            </div>
+          </div>
+        `;
+      }
+      grid.innerHTML = html;
+    }
+
+    function openLobby() {
+      currentStoreKey = null;
+      document.getElementById('store-view').classList.remove('active');
+      document.getElementById('lobby-view').classList.add('active');
+      window.scrollTo(0,0);
+    }
+
+    function filterByManufacturer(mfr) {
+      currentManufacturerFilter = mfr;
+      
+      document.querySelectorAll('.mfr-btn').forEach(btn => btn.classList.remove('active'));
+      if (mfr === 'all') document.getElementById('mfr-all').classList.add('active');
+      if (mfr === 'Turkey') document.getElementById('mfr-turkey').classList.add('active');
+      if (mfr === 'China') document.getElementById('mfr-china').classList.add('active');
+      if (mfr === 'Europe') document.getElementById('mfr-europe').classList.add('active');
+
+      if (currentStoreKey) renderProducts(currentStoreKey);
+    }
+
+    function renderProducts(storeKey) {
+      const dict = i18n[currentLang];
+      const storeInfo = dict.stores[storeKey];
+      const storeData = storesCatalog[storeKey];
+      const grid = document.getElementById('store-products-grid');
+
+      let filteredProducts = storeData.products;
+      if (storeKey === 'pergolas' && currentManufacturerFilter !== 'all') {
+        filteredProducts = storeData.products.filter(p => p.manufacturer === currentManufacturerFilter);
+      }
+
+      if (filteredProducts.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">Нет товаров для выбранного производителя</div>`;
+        return;
+      }
+
+      grid.innerHTML = filteredProducts.map(p => `
+        <div class="product-card">
+          <img src="${p.img}" alt="${storeInfo.products[p.id]}">
+          <div class="product-details">
+            <div>
+              <div class="product-title">${storeInfo.products[p.id]}</div>
+              <div class="product-price">${formatPrice(p.priceUSD)}</div>
+            </div>
+            <button class="buy-btn" onclick="addToCart()">${dict.buy}</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openStore(storeKey) {
+      currentStoreKey = storeKey;
+      currentManufacturerFilter = 'all';
+      
+      document.querySelectorAll('.mfr-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('mfr-all').classList.add('active');
+
+      const dict = i18n[currentLang];
+      const storeInfo = dict.stores[storeKey];
+      const storeData = storesCatalog[storeKey];
+
+      document.getElementById('store-name-title').innerText = storeInfo.name;
+      document.getElementById('store-name-subtitle').innerText = storeInfo.desc;
+      document.getElementById('store-hero').style.backgroundImage = `linear-gradient(to top, rgba(255,255,255,0.7), transparent), url('${storeData.img}')`;
+
+      const extendedContentDiv = document.getElementById('store-extended-content');
+      const mfrSection = document.getElementById('manufacturer-section');
+
+      if (storeKey === 'pergolas') {
+        mfrSection.style.display = 'flex';
+        const ext = dict.pergolasExtended;
+        extendedContentDiv.innerHTML = `
+          <div class="store-extended-info">
+            <h3 style="color: var(--primary); margin-bottom: 8px; font-size: 18px;">${ext.headline}</h3>
+            <p style="margin-bottom: 15px; color: var(--text-muted);">${ext.intro}</p>
+            <ul class="store-features-list">
+              ${ext.features.map(f => `<li>${f}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+      } else {
+        mfrSection.style.display = 'none';
+        extendedContentDiv.innerHTML = '';
+      }
+
+      renderProducts(storeKey);
+
+      document.getElementById('lobby-view').classList.remove('active');
+      document.getElementById('store-view').classList.add('active');
+      window.scrollTo(0,0);
+    }
+
+    function addToCart() {
+      cartCount++;
+      document.getElementById('cart-count').innerText = cartCount;
+    }
+
+    function showCart() {
+      alert(`${i18n[currentLang].alertCart}${cartCount}`);
+    }
+
+    // Init
+    fetchLiveRates();
+    renderLobbyStores();
+    setInterval(fetchLiveRates, 60000);
+  </script>
 </body>
 </html>
