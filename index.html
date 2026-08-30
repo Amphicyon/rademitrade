@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rademitrade — Пергола Групп</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --accent: #2b6cb0;
+            --bg: #f7fafc;
+            --text: #2d3748;
+            --white: #ffffff;
+            --gray: #e2e8f0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
+        header { background: var(--primary); color: var(--white); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .logo { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
+        .controls { display: flex; gap: 1rem; align-items: center; }
+        select { padding: 0.4rem 0.8rem; border-radius: 4px; border: 1px solid var(--gray); background: var(--white); color: var(--text); cursor: pointer; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        .hero { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--white); padding: 4rem 2rem; border-radius: 8px; text-align: center; margin-bottom: 2rem; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .card { background: var(--white); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-4px); }
+        .card-img { height: 200px; background: #cbd5e0; display: flex; align-items: center; justify-content: center; color: #4a5565; font-weight: bold; font-size: 1.1rem; }
+        .card-body { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-title { font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem; color: var(--primary); }
+        .card-desc { font-size: 0.95rem; color: #4a5568; margin-bottom: 1.5rem; flex-grow: 1; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .price { font-size: 1.2rem; font-weight: bold; color: var(--accent); }
+        .btn { background: var(--primary); color: var(--white); border: none; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+        .btn:hover { background: var(--accent); }
+        footer { text-align: center; padding: 2rem; margin-top: 3rem; background: var(--primary); color: var(--white); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Rademitrade | Пергола Групп</div>
+        <div class="controls">
+            <select id="langSelect" onchange="changeLang()">
+                <option value="ru">Русский</option>
+                <option value="en">English</option>
+                <option value="he">עברית</option>
+            </select>
+            <select id="currSelect" onchange="changeCurr()">
+                <option value="RUB">RUB (₽)</option>
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="ILS">ILS (₪)</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1 id="heroTitle">Премиальные перголы и маркизы</h1>
+            <p id="heroDesc">Индивидуальные архитектурные решения для вашего загородного дома, террасы и бизнеса.</p>
+        </section>
+
+        <div class="products-grid">
+            <div class="card">
+                <div class="card-img">Пергола Bioclimatic</div>
+                <div class="card-body">
+                    <div class="card-title" data-i18n="p1Title">Биоклиматическая пергола</div>
+                    <div class="card-desc" data-i18n="p1Desc">Алюминиевая конструкция с поворотными ламелями для полного контроля света и вентиляции.</div>
+                    <div class="card-footer">
+                        <span class="price" data-price="250000">250 000 ₽</span>
+                        <button class="btn" data-i18n="buyBtn">Заказать</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">Маркиза Cassette</div>
+                <div class="card-body">
+                    <div class="card-title" data-i18n="p2Title">Локтевая маркиза в кассете</div>
+                    <div class="card-desc" data-i18n="p2Desc">Надежная защита от солнца с электроприводом и датчиками ветра.</div>
+                    <div class="card-footer">
+                        <span class="price" data-price="120000">120 000 ₽</span>
+                        <button class="btn" data-i18n="buyBtn">Заказать</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img">Раздвижная система Glass</div>
+                <div class="card-body">
+                    <div class="card-title" data-i18n="p3Title">Безрамное остекление</div>
+                    <div class="card-desc" data-i18n="p3Desc">Панорамное остекление террас с возможностью полного сдвигания секций.</div>
+                    <div class="card-footer">
+                        <span class="price" data-price="180000">180 000 ₽</span>
+                        <button class="btn" data-i18n="buyBtn">Заказать</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Rademitrade & Пергола Групп. Все права защищены.</p>
+    </footer>
+
+    <script>
+        const translations = {
+            ru: {
+                heroTitle: "Премиальные перголы и маркизы",
+                heroDesc: "Индивидуальные архитектурные решения для вашего загородного дома, террасы и бизнеса.",
+                p1Title: "Биоклиматическая пергола",
+                p1Desc: "Алюминиевая конструкция с поворотными ламелями для полного контроля света и вентиляции.",
+                p2Title: "Локтевая маркиза в кассете",
+                p2Desc: "Надежная защита от солнца с электроприводом и датчиками ветра.",
+                p3Title: "Безрамное остекление",
+                p3Desc: "Панорамное остекление террас с возможностью полного сдвигания секций.",
+                buyBtn: "Заказать"
+            },
+            en: {
+                heroTitle: "Premium Pergolas & Awnings",
+                heroDesc: "Custom architectural solutions for your country house, terrace, and business.",
+                p1Title: "Bioclimatic Pergola",
+                p1Desc: "Aluminum structure with rotating louvers for complete light and ventilation control.",
+                p2Title: "Cassette Awning",
+                p2Desc: "Reliable sun protection with electric drive and wind sensors.",
+                p3Title: "Frameless Glazing",
+                p3Desc: "Panoramic terrace glazing with fully retractable sections.",
+                buyBtn: "Order Now"
+            },
+            he: {
+                heroTitle: "פרгоלות ומרקיזות פרימיום",
+                heroDesc: "פתרונות אדריכליים בהתאמה אישית לבית, למרפסת ולעסק שלך.",
+                p1Title: "פרגולה ביוקלימטית",
+                p1Desc: "מבנה אלומיניום עם שלבים מתכווננים לשליטה מלאה באור ובאוורור.",
+                p2Title: "מרקיזת קاسеտ",
+                p2Desc: "הגנה אמינה מפני השמש עם הנעה חשמלית וחיישני רוח.",
+                p3Title: "זיגוג ללא מסגרת",
+                p3Desc: "זיגוג פנורמי למרפסות עם אפשרות לפתיחה מלאה.",
+                buyBtn: "להזמנה"
+            }
+        };
+
+        const rates = { RUB: 1, USD: 0.011, EUR: 0.010, ILS: 0.040 };
+        const symbols = { RUB: '₽', USD: '$', EUR: '€', ILS: '₪' };
+
+        function changeLang() {
+            const lang = document.getElementById('langSelect').value;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
+            
+            document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
+            document.getElementById('heroDesc').innerText = translations[lang].heroDesc;
+            
+            const titles = document.querySelectorAll('.card-title');
+            const descs = document.querySelectorAll('.card-desc');
+            const btns = document.querySelectorAll('.btn');
+            
+            if(lang === 'en') {
+                titles[0].innerText = translations.en.p1Title;
+                descs[0].innerText = translations.en.p1Desc;
+                titles[1].innerText = translations.en.p2Title;
+                descs[1].innerText = translations.en.p2Desc;
+                titles[2].innerText = translations.en.p3Title;
+                descs[2].innerText = translations.en.p3Desc;
+            } else if(lang === 'he') {
+                titles[0].innerText = translations.he.p1Title;
+                descs[0].innerText = translations.he.p1Desc;
+                titles[1].innerText = translations.he.p2Title;
+                descs[1].innerText = translations.he.p2Desc;
+                titles[2].innerText = translations.he.p3Title;
+                descs[2].innerText = translations.he.p3Desc;
+            } else {
+                titles[0].innerText = translations.ru.p1Title;
+                descs[0].innerText = translations.ru.p1Desc;
+                titles[1].innerText = translations.ru.p2Title;
+                descs[1].innerText = translations.ru.p2Desc;
+                titles[2].innerText = translations.ru.p3Title;
+                descs[2].innerText = translations.ru.p3Desc;
+            }
+            btns.forEach(b => b.innerText = translations[lang].buyBtn);
+        }
+
+        function changeCurr() {
+            const curr = document.getElementById('currSelect').value;
+            const rate = rates[curr];
+            const sym = symbols[curr];
+            
+            document.querySelectorAll('.price').forEach(el => {
+                const baseVal = parseFloat(el.getAttribute('data-price'));
+                const converted = Math.round(baseVal * rate);
+                el.innerText = converted.toLocaleString() + ' ' + sym;
+            });
+        }
+    </script>
+</body>
+</html>
