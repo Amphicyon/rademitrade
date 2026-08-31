@@ -1,259 +1,865 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rademitrade - Виртуальный Торговый Комплекс</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #2d4a3e;
-            --accent: #4a7c59;
-            --orange: #d97742;
-            --bg: #f7f5f0;
-            --card-bg: #ffffff;
-            --text-main: #2b332f;
-            --text-muted: #6b7770;
-            --border-color: #e3ded6;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rademitrade - Virtual Shopping Mall</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2d4a3e;       
+      --accent: #4a7c59;        
+      --orange: #d97742;        
+      --bg: #f7f5f0;            
+      --card-bg: #ffffff;       
+      --text-main: #2b332f;     
+      --text-muted: #6b7770;    
+      --border-color: #e3ded6;  
+    }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
 
-        header {
-            background: #ffffff;
-            padding: 16px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-            flex-wrap: wrap;
-            gap: 15px;
-        }
+    /* Header Bar */
+    header {
+      background: #ffffff;
+      padding: 16px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 15px;
+      box-shadow: 0 4px 20px rgba(45, 74, 62, 0.04);
+    }
+    
+    .logo { cursor: pointer; display: flex; align-items: center; gap: 12px; user-select: none; }
+    .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .logo-title { font-size: 22px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+    .logo-domain { font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; }
 
-        .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-area img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
-        .logo-area h1 { font-size: 20px; color: var(--primary); font-weight: 700; }
-        .logo-area span { font-size: 12px; color: var(--text-muted); display: block; }
+    .nav-actions { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+    
+    select.control-select {
+      background: #f0ede6;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 8px 14px;
+      border-radius: 12px;
+      outline: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
 
-        .controls { display: flex; align-items: center; gap: 10px; }
-        select { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: #fff; color: var(--text-main); cursor: pointer; font-size: 14px; }
-        
-        .cart-btn {
-            background: var(--orange);
-            color: #fff;
-            border: none;
-            padding: 9px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-        }
+    .admin-btn { background: var(--primary); color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; border: none; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
+    .admin-btn:hover { opacity: 0.9; }
 
-        .ticker-bar {
-            background: #2b332f;
-            color: #fff;
-            padding: 8px 20px;
-            font-size: 13px;
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
-            border-bottom: 2px solid var(--orange);
-        }
+    .cart-btn { background: var(--orange); color: #fff; padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: bold; white-space: nowrap; box-shadow: 0 4px 12px rgba(217, 119, 66, 0.2); transition: 0.2s; }
+    .cart-btn:hover { opacity: 0.9; }
 
-        .main-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        .section-title { font-size: 28px; color: var(--primary); margin-bottom: 8px; font-weight: 700; }
-        .section-desc { color: var(--text-muted); margin-bottom: 25px; font-size: 15px; }
+    /* Ticker & Banner */
+    .ticker-bar {
+      background: #efece4;
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 20px;
+      display: flex;
+      gap: 25px;
+      overflow-x: auto;
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .ticker-item { display: flex; align-items: center; gap: 6px; }
+    .ticker-item span.val { color: var(--text-main); font-weight: bold; }
 
-        .boutiques-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
+    .crypto-banner {
+      background: #eaf1ed;
+      border-bottom: 1px solid #d4e2da;
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .crypto-banner i { color: #d97742; font-size: 16px; }
 
-        .boutique-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-        }
+    .page-view { display: none; padding: 40px; flex: 1; }
+    .page-view.active { display: block; }
 
-        .boutique-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .boutique-img { height: 180px; width: 100%; object-fit: cover; }
-        .boutique-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
-        .boutique-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); font-weight: 700; margin-bottom: 6px; }
-        .boutique-title { font-size: 20px; color: var(--primary); margin-bottom: 10px; font-weight: 600; }
-        .boutique-text { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; flex-grow: 1; }
-        
-        .btn-primary {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: center;
-            font-weight: 600;
-            text-decoration: none;
-            display: block;
-            transition: background 0.2s;
-        }
-        .btn-primary:hover { background: var(--accent); }
+    /* Mall Lobby */
+    .lobby-hero { text-align: center; padding: 20px 0 40px 0; }
+    .lobby-hero h1 { font-size: 34px; margin-bottom: 10px; color: var(--primary); font-weight: 800; }
+    .lobby-hero p { color: var(--text-muted); font-size: 16px; }
 
-        /* Footer Info Sections */
-        .info-sections {
-            background: #ffffff;
-            border-top: 1px solid var(--border-color);
-            padding: 50px 20px;
-            margin-top: 60px;
-        }
-        .info-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-        .info-box h3 {
-            font-size: 18px;
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .info-box p, .info-box ul {
-            font-size: 14px;
-            color: var(--text-muted);
-            list-style: none;
-        }
-        .info-box ul li {
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .info-box ul li i { color: var(--orange); }
+    .stores-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
 
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            margin-top: 30px;
-            border-top: 1px solid var(--border-color);
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-    </style>
+    .store-front {
+      background: var(--card-bg);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(43, 51, 47, 0.04);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .store-front:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 16px 40px rgba(74, 124, 89, 0.12); }
+    .store-banner { height: 180px; background-size: cover; background-position: center; position: relative; }
+    .store-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(43,51,47,0.7), transparent); }
+    .store-badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9); color: var(--primary); padding: 5px 12px; border-radius: 12px; font-size: 11px; text-transform: uppercase; font-weight: 700; }
+    [dir="rtl"] .store-badge { left: auto; right: 15px; }
+
+    .store-body { padding: 24px; }
+    .store-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+    .store-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; min-height: 42px; }
+    .enter-btn { background: #f0ede6; border: none; color: var(--primary); width: 100%; padding: 12px; border-radius: 12px; font-weight: bold; transition: 0.2s; cursor: pointer; }
+    .store-front:hover .enter-btn { background: var(--primary); color: #fff; }
+
+    /* Inside Store */
+    .store-header-banner {
+      border-radius: 24px;
+      background-size: cover;
+      background-position: center;
+      padding: 50px 40px;
+      margin-bottom: 30px;
+      position: relative;
+      box-shadow: 0 12px 35px rgba(43, 51, 47, 0.08);
+    }
+    .store-hero-content {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      padding: 35px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      max-width: 900px;
+    }
+    .back-to-mall { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); border: none; color: var(--primary); padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: 0.2s; }
+    [dir="rtl"] .back-to-mall { left: auto; right: 20px; }
+    .back-to-mall:hover { background: var(--primary); color: #fff; }
+    
+    .store-extended-info { margin-top: 20px; font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .store-features-list { list-style-type: none; margin: 15px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+    .store-features-list li { background: #f7f5f0; padding: 10px 14px; border-radius: 10px; border-left: 3px solid var(--accent); font-size: 13px; color: var(--text-main); }
+
+    .manufacturer-filter {
+      margin: 25px 0 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: #ffffff;
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 15px rgba(43, 51, 47, 0.02);
+    }
+    .manufacturer-filter label { font-weight: 700; color: var(--primary); font-size: 14px; }
+    .mfr-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+    .mfr-btn {
+      background: #f7f5f0; border: 1px solid var(--border-color); color: var(--text-muted);
+      padding: 8px 16px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s;
+    }
+    .mfr-btn:hover { border-color: var(--accent); color: var(--primary); }
+    .mfr-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: bold; }
+
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+    .product-card { background: var(--card-bg); border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); display: flex; flex-direction: column; box-shadow: 0 6px 20px rgba(43, 51, 47, 0.03); transition: 0.2s; position: relative; }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(74, 124, 89, 0.08); }
+    .product-card img { width: 100%; height: 200px; object-fit: cover; }
+    .product-details { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .product-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+    .product-price { font-size: 18px; color: var(--orange); font-weight: 800; margin-bottom: 15px; }
+    .card-actions { display: flex; gap: 8px; }
+    .buy-btn { background: var(--accent); border: none; color: #fff; padding: 10px; border-radius: 12px; cursor: pointer; font-weight: bold; flex-grow: 1; transition: 0.2s; }
+    .buy-btn:hover { opacity: 0.9; }
+    .delete-prod-btn { background: #e74c3c; border: none; color: #fff; padding: 10px 14px; border-radius: 12px; cursor: pointer; transition: 0.2s; }
+    .delete-prod-btn:hover { background: #c0392b; }
+
+    /* Admin Modal Overlay */
+    .admin-modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
+    }
+    .admin-modal.open { display: flex; }
+    .admin-modal-content {
+      background: #ffffff; width: 100%; max-width: 500px; border-radius: 20px; padding: 30px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2); position: relative;
+      max-height: 90vh; overflow-y: auto;
+    }
+    .admin-modal-content h3 { color: var(--primary); margin-bottom: 20px; font-size: 22px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: var(--text-main); }
+    .form-group input, .form-group select {
+      width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 14px; outline: none; background: #fcfbfa;
+    }
+    .modal-btns { display: flex; gap: 10px; margin-top: 25px; }
+    .btn-save { background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; flex: 1; }
+    .btn-close-modal { background: #e0dcd0; color: var(--text-main); border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; flex: 1; }
+
+    /* Footer */
+    .site-footer {
+      background: #23382f; color: #d1dcd5; padding: 60px 30px 20px 30px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 40px; margin-bottom: 40px; }
+    .footer-logo { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 800; color: #ffffff; margin-bottom: 15px; }
+    .footer-about { font-size: 13px; line-height: 1.6; color: #a3b8ad; }
+    .footer-col h4 { color: #ffffff; font-size: 16px; font-weight: 700; margin-bottom: 20px; position: relative; padding-bottom: 8px; }
+    .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: 0; width: 30px; height: 2px; background: var(--accent); }
+    [dir="rtl"] .footer-col h4::after { left: auto; right: 0; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 13px; }
+    .footer-links li { display: flex; align-items: center; gap: 10px; color: #b3c5bc; }
+    .footer-links li i { color: var(--accent); width: 16px; text-align: center; }
+    .footer-pay-icons { display: flex; gap: 15px; font-size: 28px; color: #ffffff; margin-bottom: 15px; flex-wrap: wrap; }
+    .footer-pay-icons i { transition: transform 0.2s ease, color 0.2s ease; }
+    .footer-pay-icons i:hover { color: var(--orange); transform: translateY(-2px); }
+    .footer-secure-note { font-size: 12px; color: #8fa699; line-height: 1.5; }
+    .footer-bottom { max-width: 1400px; margin: 0 auto; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.06); text-align: center; font-size: 12px; color: #8fa699; }
+  </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo-area">
-            <img src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9" alt="Logo">
-            <div>
-                <h1>Rademitrade</h1>
-                <span>www.rademitrade.com</span>
-            </div>
-        </div>
-        <div class="controls">
-            <select id="langSelect">
-                <option value="ru">Русский</option>
-                <option value="en">English</option>
-            </select>
-            <select id="currencySelect">
-                <option value="USD">USD ($)</option>
-                <option value="RUB">RUB (₽)</option>
-                <option value="EUR">EUR (€)</option>
-                <option value="ILS">ILS (₪)</option>
-                <option value="USDT">USDT</option>
-            </select>
-            <button class="cart-btn"><i class="fa-solid fa-cart-shopping"></i> Корзина (0)</button>
-        </div>
-    </header>
-
-    <div class="ticker-bar">
-        <span><i class="fa-brands fa-bitcoin"></i> BTC: $79,144</span>
-        <span><i class="fa-brands fa-ethereum"></i> ETH: $2,514.15</span>
-        <span>🛡️ Безопасные расчеты и SSL-шифрование</span>
-        <span>💎 Доступна оплата криптовалютой (BTC, ETH, USDT)</span>
+  <!-- Top Header Bar -->
+  <header>
+    <div class="logo" onclick="openLobby()">
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logo-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2d4a3e"/>
+            <stop offset="100%" stop-color="#4a7c59"/>
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="44" stroke="url(#logo-grad)" stroke-width="8" fill="none" />
+        <path d="M 20 50 A 30 30 0 0 0 80 50" stroke="#4a7c59" stroke-width="4" fill="none" stroke-dasharray="4 3" />
+        <path d="M 50 10 A 40 40 0 0 1 50 90" stroke="#4a7c59" stroke-width="4" fill="none" />
+        <path d="M 32 72 L 32 28 L 56 28 C 66 28 66 44 56 44 L 32 44 M 48 44 L 72 72" stroke="#2d4a3e" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+        <path d="M 62 60 L 74 74 L 74 58" fill="#2d4a3e" />
+      </svg>
+      <div class="logo-text">
+        <span class="logo-title">Rademitrade</span>
+        <span class="logo-domain">www.rademitrade.com</span>
+      </div>
     </div>
 
-    <main class="main-container">
-        <h2 class="section-title">Торговый Комплекс Rademitrade</h2>
-        <p class="section-desc">Выберите специализированный магазин для перехода в каталог товаров</p>
+    <div class="nav-actions">
+      <select id="lang-select" class="control-select" onchange="changeLanguage(this.value)">
+        <option value="ru">Русский</option>
+        <option value="en">English</option>
+        <option value="he">עברית (Hebrew)</option>
+        <option value="ar">العربية (Arabic)</option>
+        <option value="zh">中文 (Chinese)</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="fr">Français</option>
+        <option value="tur">Türkçe</option>
+        <option value="kk">Қазақша</option>
+      </select>
 
-        <div class="boutiques-grid">
-            <!-- Бутик 1 -->
-            <div class="boutique-card">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Pergola" class="boutique-img">
-                <div class="boutique-content">
-                    <span class="boutique-tag">Бутик #1</span>
-                    <h3 class="boutique-title">Пергола Групп</h3>
-                    <p class="boutique-text">Перголы и навесы премиум-класса. Архитектура тени, уютная вечерняя подсветка и надежная защита от любых погодных условий для вашей террасы.</p>
-                    <a href="#" class="btn-primary">Войти в магазин →</a>
-                </div>
-            </div>
+      <select id="curr-select" class="control-select" onchange="changeCurrency(this.value)">
+        <option value="USD">USD ($)</option>
+        <option value="EUR">EUR (€)</option>
+        <option value="RUB">RUB (₽)</option>
+        <option value="ILS">ILS (₪)</option>
+        <option value="AED">AED (د.إ)</option>
+        <option value="BTC">BTC (₿)</option>
+        <option value="ETH">ETH (Ξ)</option>
+      </select>
 
-            <!-- Бутик 2 -->
-            <div class="boutique-card">
-                <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf" alt="Facades" class="boutique-img">
-                <div class="boutique-content">
-                    <span class="boutique-tag">Бутик #2</span>
-                    <h3 class="boutique-title">Фасады и Ландшафт</h3>
-                    <p class="boutique-text">Фасадные панели, уличный свет, системы безрамного остекления и эксклюзивный садовый декор.</p>
-                    <a href="#" class="btn-primary">Войти в магазин →</a>
-                </div>
-            </div>
+      <button class="admin-btn" onclick="openAdminModal()">
+        <i class="fa-solid fa-gear"></i> <span id="txt-admin">Управление</span>
+      </button>
+
+      <div class="cart-btn" onclick="showCart()">
+        <i class="fa-solid fa-cart-shopping"></i> <span id="txt-cart">Корзина</span> (<span id="cart-count">0</span>)
+      </div>
+    </div>
+  </header>
+
+  <!-- Realtime Ticker Bar -->
+  <div class="ticker-bar" id="ticker-bar">
+    <div class="ticker-item"><i class="fa-solid fa-sync fa-spin"></i> <span id="txt-loading">Загрузка курсов...</span></div>
+  </div>
+
+  <div class="crypto-banner">
+    <i class="fa-brands fa-bitcoin"></i>
+    <span id="txt-crypto-pay">На нашем сайте возможна оплата криптовалютой (BTC, ETH, USDT)</span>
+  </div>
+
+  <!-- PAGE 1: LOBBY -->
+  <div id="lobby-view" class="page-view active">
+    <div class="lobby-hero">
+      <h1 id="txt-title">Торговый Комплекс Rademitrade</h1>
+      <p id="txt-subtitle">Выберите специализированный магазин для перехода в каталог товаров</p>
+    </div>
+    <div class="stores-grid" id="stores-grid"></div>
+  </div>
+
+  <!-- PAGE 2: STORE -->
+  <div id="store-view" class="page-view">
+    <div id="store-hero" class="store-header-banner">
+      <button class="back-to-mall" onclick="openLobby()" id="txt-back">&larr; Вернуться в Холл</button>
+      <div class="store-hero-content">
+        <h1 id="store-name-title" style="font-size: 30px; color: var(--primary); margin-bottom: 10px; font-weight: 800;"></h1>
+        <p id="store-name-subtitle" style="color: var(--text-muted); line-height: 1.5;"></p>
+        <div id="store-extended-content"></div>
+      </div>
+    </div>
+
+    <div id="manufacturer-section" style="display: none;" class="manufacturer-filter">
+      <label id="txt-mfr-label"><i class="fa-solid fa-industry"></i> Производитель:</label>
+      <div class="mfr-buttons" id="mfr-buttons-container">
+        <button class="mfr-btn active" onclick="filterByManufacturer('all')" id="mfr-all">Все</button>
+        <button class="mfr-btn" onclick="filterByManufacturer('Turkey')" id="mfr-turkey">Турция</button>
+        <button class="mfr-btn" onclick="filterByManufacturer('China')" id="mfr-china">Китай</button>
+        <button class="mfr-btn" onclick="filterByManufacturer('Europe')" id="mfr-europe">Европа</button>
+      </div>
+    </div>
+
+    <div class="products-grid" id="store-products-grid"></div>
+  </div>
+
+  <!-- ADMIN MODAL -->
+  <div class="admin-modal" id="admin-modal">
+    <div class="admin-modal-content">
+      <h3 id="modal-title"><i class="fa-solid fa-plus-circle"></i> Добавить новый товар</h3>
+      <form id="add-product-form" onsubmit="handleAddNewProduct(event)">
+        <div class="form-group">
+          <label id="lbl-store-select">Выберите магазин:</label>
+          <select id="admin-store-select">
+            <option value="pergolas">Пергола Групп</option>
+            <option value="facade">Фасады и Ландшафт</option>
+            <option value="karts">Электро Транспорт</option>
+            <option value="beauty">Бьюти Оборудование</option>
+            <option value="pharma">Фарма Лаборатория</option>
+            <option value="custom">Пром Оборудование</option>
+            <option value="misc">Радеми Электроника</option>
+          </select>
         </div>
-    </main>
 
-    <!-- Информационный футер (О нас, Контакты, Защита) -->
-    <footer class="info-sections">
-        <div class="info-grid">
-            <div class="info-box">
-                <h3><i class="fa-solid fa-circle-info"></i> О нас</h3>
-                <p><strong>Rademitrade</strong> — современный мультивалютный виртуальный торговый комплекс. Мы объединяем передовые архитектурные решения, премиальные товары для загородных домов и инновационные способы оплаты, включая фиат и криптовалюту.</p>
-            </div>
-
-            <div class="info-box">
-                <h3><i class="fa-solid fa-location-dot"></i> Адрес фирмы</h3>
-                <p>Главный офис и логистический хаб:</p>
-                <p style="margin-top: 6px;">📍 <strong>Rademitrade HQ</strong><br>Торгово-выставочный центр «Инновация»<br>Международный бизнес-квартал</p>
-            </div>
-
-            <div class="info-box">
-                <h3><i class="fa-solid fa-headset"></i> Как связаться</h3>
-                <ul>
-                    <li><i class="fa-solid fa-envelope"></i> support@rademitrade.com</li>
-                    <li><i class="fa-solid fa-phone"></i> +1 (800) 555-RADEMI</li>
-                    <li><i class="fa-brands fa-telegram"></i> Telegram: @rademitrade_support</li>
-                </ul>
-            </div>
-
-            <div class="info-box">
-                <h3><i class="fa-solid fa-shield-halved"></i> Какая защита</h3>
-                <ul>
-                    <li><i class="fa-solid fa-lock"></i> SSL-шифрование всех транзакций</li>
-                    <li><i class="fa-solid fa-user-shield"></i> Конфиденциальность персональных данных</li>
-                    <li><i class="fa-solid fa-file-contract"></i> Защита прав покупателей и гарантия возврата</li>
-                </ul>
-            </div>
+        <div class="form-group">
+          <label id="lbl-prod-name">Название товара:</label>
+          <input type="text" id="admin-prod-name" placeholder="Например: Биоклиматическая пергола" required>
         </div>
-        <div class="footer-bottom">
-            &copy; 2026 Rademitrade. Все права защищены.
-        </div>
-    </footer>
 
+        <div class="form-group">
+          <label id="lbl-prod-price">Цена в USD ($):</label>
+          <input type="number" id="admin-prod-price" placeholder="1500" required min="1">
+        </div>
+
+        <div class="form-group">
+          <label id="lbl-prod-mfr">Производитель / Страна:</label>
+          <select id="admin-prod-mfr">
+            <option value="Turkey">Турция</option>
+            <option value="China">Китай</option>
+            <option value="Europe">Европа</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label id="lbl-prod-img">Ссылка на картинку (URL):</label>
+          <input type="url" id="admin-prod-img" placeholder="https://images.unsplash.com/..." required>
+        </div>
+
+        <div class="modal-btns">
+          <button type="submit" class="btn-save" id="btn-save-prod">Добавить товар</button>
+          <button type="button" class="btn-close-modal" onclick="closeAdminModal()" id="btn-cancel-modal">Отмена</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="footer-logo">
+          <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="44" stroke="#4a7c59" stroke-width="8" fill="none" />
+            <path d="M 32 72 L 32 28 L 56 28 C 66 28 66 44 56 44 L 32 44 M 48 44 L 72 72" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          </svg>
+          <span>Rademitrade</span>
+        </div>
+        <p class="footer-about" id="footer-about-text">Виртуальный торгово-промышленный комплекс международного масштаба. Прямые поставки от ведущих мировых производителей и безопасные расчеты.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 id="footer-sec-security">Безопасность и Доверие</h4>
+        <ul class="footer-links">
+          <li><i class="fa-solid fa-shield-halved"></i> <span id="f-ssl">SSL-шифрование 256-bit</span></li>
+          <li><i class="fa-solid fa-lock"></i> <span id="f-escrow">Безопасные крипто-платежи</span></li>
+          <li><i class="fa-solid fa-file-shield"></i> <span id="f-privacy">Защита персональных данных</span></li>
+          <li><i class="fa-solid fa-award"></i> <span id="f-quality">Сертификация ISO 9001</span></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 id="footer-sec-pay">Способы Оплаты</h4>
+        <div class="footer-pay-icons">
+          <i class="fa-brands fa-btc" title="Bitcoin"></i>
+          <i class="fa-brands fa-ethereum" title="Ethereum"></i>
+          <i class="fa-solid fa-coins" title="USDT / Crypto"></i>
+          <i class="fa-brands fa-cc-visa" title="Visa"></i>
+          <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+        </div>
+        <p class="footer-secure-note" id="footer-crypto-note">Мгновенный клиринг и поддержка мультивалютных транзакций.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 id="footer-sec-contacts">Контакты и Поддержка</h4>
+        <ul class="footer-links">
+          <li><i class="fa-solid fa-globe"></i> www.rademitrade.com</li>
+          <li><i class="fa-solid fa-headset"></i> <span id="f-support">Поддержка 24/7 / Консьерж-сервис</span></li>
+          <li><i class="fa-solid fa-location-dot"></i> <span id="f-hq">Международный логистический хаб</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Rademitrade.com. <span id="f-rights">Все права защищены. Виртуальная экосистема электронной коммерции.</span></p>
+    </div>
+  </footer>
+
+  <script>
+    const i18n = {
+      ru: {
+        dir: "ltr",
+        title: "Торговый Комплекс Rademitrade",
+        subtitle: "Выберите специализированный магазин для перехода в каталог товаров",
+        cart: "Корзина",
+        adminBtn: "Управление",
+        back: "← Вернуться в Холл",
+        enter: "Войти в магазин →",
+        buy: "В корзину",
+        deleteBtn: "Удалить",
+        boutique: "Бутик",
+        loading: "Загрузка курсов...",
+        alertCart: "Всего товаров в корзине: ",
+        cryptoPay: "На нашем сайте возможна оплата криптовалютой (BTC, ETH, USDT)",
+        mfrLabel: "Производитель:",
+        mfrAll: "Все",
+        mfrTurkey: "Турция",
+        mfrChina: "Китай",
+        mfrEurope: "Европа",
+        modalTitle: "Добавить новый товар",
+        lblStore: "Выберите магазин:",
+        lblPName: "Название товара:",
+        lblPPrice: "Цена в USD ($):",
+        lblPMfr: "Производитель / Страна:",
+        lblPImg: "Ссылка на картинку (URL):",
+        btnSave: "Добавить товар",
+        btnCancel: "Отмена",
+        footerAbout: "Виртуальный торгово-промышленный комплекс международного масштаба. Прямые поставки от ведущих мировых производителей и безопасные расчеты.",
+        footerSecSecurity: "Безопасность и Доверие",
+        fSsl: "SSL-шифрование 256-bit",
+        fEscrow: "Безопасные крипто-платежи",
+        fPrivacy: "Защита персональных данных",
+        fQuality: "Сертификация ISO 9001",
+        footerSecPay: "Способы Оплаты",
+        footerCryptoNote: "Мгновенный клиринг и поддержка мультивалютных транзакций.",
+        footerSecContacts: "Контакты и Поддержка",
+        fSupport: "Поддержка 24/7 / Консьерж-сервис",
+        fHq: "Международный логистический хаб",
+        fRights: "Все права защищены. Виртуальная экосистема электронной коммерции.",
+        pergolasExtended: {
+          headline: "Искусство создавать тень и комфорт",
+          intro: "Мы создаем пространства, где архитектура встречается с природой. Наш бутик специализируется на премиальных перголах и современных навесах.",
+          features: [
+            "Мировые стандарты: Прямое сотрудничество с ведущими производителями по всему миру.",
+            "Эксклюзив по вашим чертежам: Реализуем проекты любой сложности.",
+            "Безупречное качество: Только долговечные материалы премиум-класса."
+          ]
+        },
+        stores: {
+          pergolas: { name: "Пергола Групп", desc: "Перголы и навесы премиум-класса. Архитектура тени и надежная защита от любых погодных условий." },
+          facade: { name: "Фасады и Ландшафт", desc: "Фасадные панели, уличный свет и садовый декор." },
+          karts: { name: "Электро Транспорт", desc: "Спортивные картинги, гольф-кары и электротранспорт." },
+          beauty: { name: "Бьюти Оборудование", desc: "Аппаратное оборудование для салонов красоты." },
+          pharma: { name: "Фарма Лаборатория", desc: "Лабораторные приборы и медицинское оснащение." },
+          custom: { name: "Пром Оборудование", desc: "Промышленное оборудование и станки под заказ." },
+          misc: { name: "Радеми Электроника", desc: "Разнообразная электроника и спецпредложения." }
+        }
+      },
+      en: {
+        dir: "ltr",
+        title: "Rademitrade Virtual Shopping Mall",
+        subtitle: "Select a specialized store to view product catalog",
+        cart: "Cart",
+        adminBtn: "Manage",
+        back: "← Back to Lobby",
+        enter: "Enter Store →",
+        buy: "Add to Cart",
+        deleteBtn: "Delete",
+        boutique: "Boutique",
+        loading: "Loading rates...",
+        alertCart: "Total items in cart: ",
+        cryptoPay: "Cryptocurrency payments are accepted on our website (BTC, ETH, USDT)",
+        mfrLabel: "Manufacturer:",
+        mfrAll: "All",
+        mfrTurkey: "Turkey",
+        mfrChina: "China",
+        mfrEurope: "Europe",
+        modalTitle: "Add New Product",
+        lblStore: "Select Store:",
+        lblPName: "Product Name:",
+        lblPPrice: "Price in USD ($):",
+        lblPMfr: "Manufacturer / Country:",
+        lblPImg: "Image URL:",
+        btnSave: "Add Product",
+        btnCancel: "Cancel",
+        footerAbout: "International virtual industrial and commercial mall. Direct deliveries from leading global manufacturers.",
+        footerSecSecurity: "Security & Trust",
+        fSsl: "256-bit SSL Encryption",
+        fEscrow: "Secure Crypto Payments",
+        fPrivacy: "Data Privacy Protection",
+        fQuality: "ISO 9001 Certified",
+        footerSecPay: "Payment Methods",
+        footerCryptoNote: "Instant clearing and multi-currency transaction support.",
+        footerSecContacts: "Contacts & Support",
+        fSupport: "24/7 Support / Concierge Service",
+        fHq: "Global Logistics Hub",
+        fRights: "All rights reserved. Virtual e-commerce ecosystem.",
+        pergolasExtended: {
+          headline: "The Art of Creating Shade and Comfort",
+          intro: "We create spaces where architecture meets nature. Our boutique specializes in premium pergolas.",
+          features: ["Global Standards", "Custom Designs", "Flawless Quality"]
+        },
+        stores: {
+          pergolas: { name: "Pergola Group", desc: "Premium pergolas & modern canopies with weather protection." },
+          facade: { name: "Facade & Landscape", desc: "Facade panels, outdoor lighting, and landscape decor." },
+          karts: { name: "Electro Motors", desc: "Racing karts, golf carts, and electric vehicles." },
+          beauty: { name: "Beauty Tech Machinery", desc: "Professional beauty salon equipment." },
+          pharma: { name: "Pharma & Lab Systems", desc: "Laboratory instruments and pharmaceutical machinery." },
+          custom: { name: "Custom Industrial", desc: "Industrial machinery, CNC routers, and lines." },
+          misc: { name: "Rademi General Store", desc: "General consumer electronics." }
+        }
+      }
+    };
+
+    // Базовые данные товаров (сохраняются в памяти браузера)
+    const defaultStoresCatalog = {
+      pergolas: {
+        img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600",
+        products: [
+          { id: 101, name: "Биоклиматическая пергола с LED 4x3м", priceUSD: 2450, manufacturer: "Turkey", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500" },
+          { id: 102, name: "Навес для авто из поликарбоната", priceUSD: 890, manufacturer: "China", img: "https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?w=500" },
+          { id: 103, name: "Раздвижная алюминиевая пергола люкс", priceUSD: 3400, manufacturer: "Europe", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500" }
+        ]
+      },
+      facade: {
+        img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600",
+        products: [
+          { id: 201, name: "Фасадная плитка из терракоты (м²)", priceUSD: 45, manufacturer: "Europe", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500" }
+        ]
+      },
+      karts: {
+        img: "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=600",
+        products: [
+          { id: 301, name: "Спортивный электро-карт 2000W", priceUSD: 1850, manufacturer: "China", img: "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=500" }
+        ]
+      },
+      beauty: {
+        img: "https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=600",
+        products: [
+          { id: 401, name: "Аппарат SMAS лифтинга профессиональный", priceUSD: 3200, manufacturer: "Europe", img: "https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=500" }
+        ]
+      },
+      pharma: {
+        img: "https://images.unsplash.com/photo-1579165466541-71e24090a25c?w=600",
+        products: [
+          { id: 501, name: "Центрифуга лабораторная 4000 об/мин", priceUSD: 670, manufacturer: "China", img: "https://images.unsplash.com/photo-1579165466541-71e24090a25c?w=500" }
+        ]
+      },
+      custom: {
+        img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600",
+        products: [
+          { id: 601, name: "ЧПУ фрезерный станок по металлу 5 осей", priceUSD: 12500, manufacturer: "Europe", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500" }
+        ]
+      },
+      misc: {
+        img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600",
+        products: [
+          { id: 701, name: "Набор беспроводного электроинструмента", priceUSD: 120, manufacturer: "China", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" }
+        ]
+      }
+    };
+
+    // Загрузка каталога из localStorage браузера (чтобы изменения не пропадали)
+    let storesCatalog = JSON.parse(localStorage.getItem('rademi_catalog')) || defaultStoresCatalog;
+
+    let currentLang = 'ru';
+    let currentCurrency = 'USD';
+    let currentStoreKey = null;
+    let currentManufacturerFilter = 'all';
+    let cartCount = 0;
+    let rates = { USD: 1, EUR: 0.92, RUB: 90.5, ILS: 3.70, AED: 3.67, BTC: 0.000015, ETH: 0.00032 };
+    const currSymbols = { USD: "$", EUR: "€", RUB: "₽", ILS: "₪", AED: "د.إ", BTC: "₿ ", ETH: "Ξ " };
+
+    function saveCatalogToStorage() {
+      localStorage.setItem('rademi_catalog', JSON.stringify(storesCatalog));
+    }
+
+    async function fetchLiveRates() {
+      try {
+        const resFiat = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        const dataFiat = await resFiat.json();
+        rates.EUR = dataFiat.rates.EUR;
+        rates.RUB = dataFiat.rates.RUB;
+        rates.ILS = dataFiat.rates.ILS;
+        rates.AED = dataFiat.rates.AED;
+        const resCrypto = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
+        const dataCrypto = await resCrypto.json();
+        rates.BTC = 1 / dataCrypto.bitcoin.usd;
+        rates.ETH = 1 / dataCrypto.ethereum.usd;
+        renderTicker(dataCrypto.bitcoin.usd, dataCrypto.ethereum.usd);
+      } catch (err) {
+        renderTicker(65000, 3100);
+      }
+    }
+
+    function renderTicker(btcPrice, ethPrice) {
+      const ticker = document.getElementById('ticker-bar');
+      ticker.innerHTML = `
+        <div class="ticker-item"><i class="fa-brands fa-bitcoin" style="color:#d97742"></i> BTC: <span class="val">$${btcPrice.toLocaleString()}</span></div>
+        <div class="ticker-item"><i class="fa-brands fa-ethereum" style="color:#4a7c59"></i> ETH: <span class="val">$${ethPrice.toLocaleString()}</span></div>
+        <div class="ticker-item">EUR/USD: <span class="val">${(1/rates.EUR).toFixed(4)}</span></div>
+        <div class="ticker-item">USD/RUB: <span class="val">${rates.RUB.toFixed(2)}</span></div>
+        <div class="ticker-item">USD/ILS: <span class="val">${rates.ILS.toFixed(2)}</span></div>
+        <div class="ticker-item">USD/AED: <span class="val">${rates.AED.toFixed(2)}</span></div>
+      `;
+    }
+
+    function formatPrice(priceUSD) {
+      const val = priceUSD * rates[currentCurrency];
+      const sym = currSymbols[currentCurrency];
+      if (currentCurrency === 'BTC' || currentCurrency === 'ETH') return `${sym}${val.toFixed(5)}`;
+      return `${sym}${val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    function changeLanguage(lang) {
+      currentLang = i18n[lang] ? lang : 'en';
+      const dict = i18n[currentLang];
+      document.dir = dict.dir;
+
+      document.getElementById('txt-title').innerText = dict.title;
+      document.getElementById('txt-subtitle').innerText = dict.subtitle;
+      document.getElementById('txt-admin').innerText = dict.adminBtn;
+      document.getElementById('txt-cart').innerText = dict.cart;
+      document.getElementById('txt-back').innerText = dict.back;
+      document.getElementById('txt-crypto-pay').innerText = dict.cryptoPay;
+      document.getElementById('txt-mfr-label').innerHTML = `<i class="fa-solid fa-industry"></i> ${dict.mfrLabel}`;
+      document.getElementById('mfr-all').innerText = dict.mfrAll;
+      document.getElementById('mfr-turkey').innerText = dict.mfrTurkey;
+      document.getElementById('mfr-china').innerText = dict.mfrChina;
+      document.getElementById('mfr-europe').innerText = dict.mfrEurope;
+
+      // Admin Modal labels
+      document.getElementById('modal-title').innerHTML = `<i class="fa-solid fa-plus-circle"></i> ${dict.modalTitle}`;
+      document.getElementById('lbl-store-select').innerText = dict.lblStore;
+      document.getElementById('lbl-prod-name').innerText = dict.lblPName;
+      document.getElementById('lbl-prod-price').innerText = dict.lblPPrice;
+      document.getElementById('lbl-prod-mfr').innerText = dict.lblPMfr;
+      document.getElementById('lbl-prod-img').innerText = dict.lblPImg;
+      document.getElementById('btn-save-prod').innerText = dict.btnSave;
+      document.getElementById('btn-cancel-modal').innerText = dict.btnCancel;
+
+      // Footer
+      document.getElementById('footer-about-text').innerText = dict.footerAbout;
+      document.getElementById('footer-sec-security').innerText = dict.footerSecSecurity;
+      document.getElementById('f-ssl').innerText = dict.fSsl;
+      document.getElementById('f-escrow').innerText = dict.fEscrow;
+      document.getElementById('f-privacy').innerText = dict.fPrivacy;
+      document.getElementById('f-quality').innerText = dict.fQuality;
+      document.getElementById('footer-sec-pay').innerText = dict.footerSecPay;
+      document.getElementById('footer-crypto-note').innerText = dict.footerCryptoNote;
+      document.getElementById('footer-sec-contacts').innerText = dict.footerSecContacts;
+      document.getElementById('f-support').innerText = dict.fSupport;
+      document.getElementById('f-hq').innerText = dict.fHq;
+      document.getElementById('f-rights').innerText = dict.fRights;
+
+      renderLobbyStores();
+      if (currentStoreKey) openStore(currentStoreKey);
+    }
+
+    function changeCurrency(curr) {
+      currentCurrency = curr;
+      if (currentStoreKey) openStore(currentStoreKey);
+    }
+
+    function renderLobbyStores() {
+      const grid = document.getElementById('stores-grid');
+      const dict = i18n[currentLang] || i18n['en'];
+      let html = '';
+      let index = 1;
+
+      for (let key in storesCatalog) {
+        const storeInfo = dict.stores[key] || i18n['en'].stores[key];
+        const storeData = storesCatalog[key];
+        html += `
+          <div class="store-front" onclick="openStore('${key}')">
+            <div class="store-banner" style="background-image: url('${storeData.img}')">
+              <div class="store-overlay"></div>
+              <span class="store-badge">${dict.boutique} #${index++}</span>
+            </div>
+            <div class="store-body">
+              <div class="store-title">${storeInfo.name}</div>
+              <div class="store-desc">${storeInfo.desc}</div>
+              <button class="enter-btn">${dict.enter}</button>
+            </div>
+          </div>
+        `;
+      }
+      grid.innerHTML = html;
+    }
+
+    function openLobby() {
+      currentStoreKey = null;
+      document.getElementById('store-view').classList.remove('active');
+      document.getElementById('lobby-view').classList.add('active');
+      window.scrollTo(0,0);
+    }
+
+    function filterByManufacturer(mfr) {
+      currentManufacturerFilter = mfr;
+      document.querySelectorAll('.mfr-btn').forEach(btn => btn.classList.remove('active'));
+      if (mfr === 'all') document.getElementById('mfr-all').classList.add('active');
+      if (mfr === 'Turkey') document.getElementById('mfr-turkey').classList.add('active');
+      if (mfr === 'China') document.getElementById('mfr-china').classList.add('active');
+      if (mfr === 'Europe') document.getElementById('mfr-europe').classList.add('active');
+      if (currentStoreKey) renderProducts(currentStoreKey);
+    }
+
+    function renderProducts(storeKey) {
+      const dict = i18n[currentLang] || i18n['en'];
+      const storeData = storesCatalog[storeKey];
+      const grid = document.getElementById('store-products-grid');
+
+      let filteredProducts = storeData.products;
+      if (storeKey === 'pergolas' && currentManufacturerFilter !== 'all') {
+        filteredProducts = storeData.products.filter(p => p.manufacturer === currentManufacturerFilter);
+      }
+
+      if (filteredProducts.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">Нет товаров для выбранного фильтра</div>`;
+        return;
+      }
+
+      grid.innerHTML = filteredProducts.map(p => `
+        <div class="product-card">
+          <img src="${p.img}" alt="${p.name}">
+          <div class="product-details">
+            <div>
+              <div class="product-title">${p.name}</div>
+              <div class="product-price">${formatPrice(p.priceUSD)}</div>
+            </div>
+            <div class="card-actions">
+              <button class="buy-btn" onclick="addToCart()">${dict.buy}</button>
+              <button class="delete-prod-btn" onclick="deleteProduct('${storeKey}', ${p.id})" title="Удалить товар"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openStore(storeKey) {
+      currentStoreKey = storeKey;
+      currentManufacturerFilter = 'all';
+      document.querySelectorAll('.mfr-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('mfr-all').classList.add('active');
+
+      const dict = i18n[currentLang] || i18n['en'];
+      const storeInfo = dict.stores[storeKey] || i18n['en'].stores[storeKey];
+      const storeData = storesCatalog[storeKey];
+
+      document.getElementById('store-name-title').innerText = storeInfo.name;
+      document.getElementById('store-name-subtitle').innerText = storeInfo.desc;
+      document.getElementById('store-hero').style.backgroundImage = `linear-gradient(to top, rgba(255,255,255,0.7), transparent), url('${storeData.img}')`;
+
+      const extendedContentDiv = document.getElementById('store-extended-content');
+      const mfrSection = document.getElementById('manufacturer-section');
+
+      if (storeKey === 'pergolas') {
+        mfrSection.style.display = 'flex';
+        const ext = dict.pergolasExtended || i18n['en'].pergolasExtended;
+        extendedContentDiv.innerHTML = `
+          <div class="store-extended-info">
+            <h3 style="color: var(--primary); margin-bottom: 8px; font-size: 18px;">${ext.headline}</h3>
+            <p style="margin-bottom: 15px; color: var(--text-muted);">${ext.intro}</p>
+          </div>
+        `;
+      } else {
+        mfrSection.style.display = 'none';
+        extendedContentDiv.innerHTML = '';
+      }
+
+      renderProducts(storeKey);
+      document.getElementById('lobby-view').classList.remove('active');
+      document.getElementById('store-view').classList.add('active');
+      window.scrollTo(0,0);
+    }
+
+    // Управление через модальное окно (Админка)
+    function openAdminModal() {
+      document.getElementById('admin-modal').classList.add('open');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.remove('open');
+    }
+
+    function handleAddNewProduct(e) {
+      e.preventDefault();
+      const storeKey = document.getElementById('admin-store-select').value;
+      const name = document.getElementById('admin-prod-name').value;
+      const priceUSD = parseFloat(document.getElementById('admin-prod-price').value);
+      const manufacturer = document.getElementById('admin-prod-mfr').value;
+      const img = document.getElementById('admin-prod-img').value;
+
+      const newId = Date.now();
+      storesCatalog[storeKey].products.push({ id: newId, name, priceUSD, manufacturer, img });
+      
+      saveCatalogToStorage();
+      closeAdminModal();
+      document.getElementById('add-product-form').reset();
+
+      if (currentStoreKey === storeKey) {
+        renderProducts(storeKey);
+      }
+      alert('Товар успешно добавлен на сайт!');
+    }
+
+    function deleteProduct(storeKey, prodId) {
+      if (confirm('Вы уверены, что хотите удалить этот товар?')) {
+        storesCatalog[storeKey].products = storesCatalog[storeKey].products.filter(p => p.id !== prodId);
+        saveCatalogToStorage();
+        renderProducts(storeKey);
+      }
+    }
+
+    function addToCart() {
+      cartCount++;
+      document.getElementById('cart-count').innerText = cartCount;
+    }
+
+    function showCart() {
+      const dict = i18n[currentLang] || i18n['en'];
+      alert(`${dict.alertCart}${cartCount}`);
+    }
+
+    // Init
+    fetchLiveRates();
+    renderLobbyStores();
+    setInterval(fetchLiveRates, 60000);
+  </script>
 </body>
 </html>
