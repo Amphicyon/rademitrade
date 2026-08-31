@@ -54,9 +54,6 @@
       font-weight: 500;
     }
 
-    .admin-btn { background: var(--primary); color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; border: none; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
-    .admin-btn:hover { opacity: 0.9; }
-
     .cart-btn { background: var(--orange); color: #fff; padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: bold; white-space: nowrap; box-shadow: 0 4px 12px rgba(217, 119, 66, 0.2); transition: 0.2s; }
     .cart-btn:hover { opacity: 0.9; }
 
@@ -93,8 +90,29 @@
     .page-view { display: none; padding: 40px; flex: 1; }
     .page-view.active { display: block; }
 
+    /* Main Global Banner */
+    .global-banner {
+      max-width: 1400px;
+      margin: 0 auto 30px auto;
+      width: 100%;
+      height: 320px;
+      background-image: url('1000006533.png');
+      background-size: cover;
+      background-position: center;
+      border-radius: 24px;
+      box-shadow: 0 12px 35px rgba(43, 51, 47, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .global-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(45,74,62,0.15), transparent);
+    }
+
     /* Mall Lobby */
-    .lobby-hero { text-align: center; padding: 20px 0 40px 0; }
+    .lobby-hero { text-align: center; padding: 10px 0 30px 0; }
     .lobby-hero h1 { font-size: 34px; margin-bottom: 10px; color: var(--primary); font-weight: 800; }
     .lobby-hero p { color: var(--text-muted); font-size: 16px; }
 
@@ -148,10 +166,6 @@
     .back-to-mall { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); border: none; color: var(--primary); padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: 0.2s; }
     [dir="rtl"] .back-to-mall { left: auto; right: 20px; }
     .back-to-mall:hover { background: var(--primary); color: #fff; }
-    
-    .store-extended-info { margin-top: 20px; font-size: 14px; color: var(--text-muted); line-height: 1.6; }
-    .store-features-list { list-style-type: none; margin: 15px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-    .store-features-list li { background: #f7f5f0; padding: 10px 14px; border-radius: 10px; border-left: 3px solid var(--accent); font-size: 13px; color: var(--text-main); }
 
     .manufacturer-filter {
       margin: 25px 0 20px 0;
@@ -184,29 +198,6 @@
     .card-actions { display: flex; gap: 8px; }
     .buy-btn { background: var(--accent); border: none; color: #fff; padding: 10px; border-radius: 12px; cursor: pointer; font-weight: bold; flex-grow: 1; transition: 0.2s; }
     .buy-btn:hover { opacity: 0.9; }
-    .delete-prod-btn { background: #e74c3c; border: none; color: #fff; padding: 10px 14px; border-radius: 12px; cursor: pointer; transition: 0.2s; }
-    .delete-prod-btn:hover { background: #c0392b; }
-
-    /* Admin Modal Overlay */
-    .admin-modal {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
-      display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
-    }
-    .admin-modal.open { display: flex; }
-    .admin-modal-content {
-      background: #ffffff; width: 100%; max-width: 500px; border-radius: 20px; padding: 30px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.2); position: relative;
-      max-height: 90vh; overflow-y: auto;
-    }
-    .admin-modal-content h3 { color: var(--primary); margin-bottom: 20px; font-size: 22px; }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: var(--text-main); }
-    .form-group input, .form-group select {
-      width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 14px; outline: none; background: #fcfbfa;
-    }
-    .modal-btns { display: flex; gap: 10px; margin-top: 25px; }
-    .btn-save { background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; flex: 1; }
-    .btn-close-modal { background: #e0dcd0; color: var(--text-main); border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; flex: 1; }
 
     /* Footer */
     .site-footer {
@@ -276,10 +267,6 @@
         <option value="ETH">ETH (Ξ)</option>
       </select>
 
-      <button class="admin-btn" onclick="openAdminModal()">
-        <i class="fa-solid fa-gear"></i> <span id="txt-admin">Управление</span>
-      </button>
-
       <div class="cart-btn" onclick="showCart()">
         <i class="fa-solid fa-cart-shopping"></i> <span id="txt-cart">Корзина</span> (<span id="cart-count">0</span>)
       </div>
@@ -298,6 +285,9 @@
 
   <!-- PAGE 1: LOBBY -->
   <div id="lobby-view" class="page-view active">
+    <!-- NEW BANNER -->
+    <div class="global-banner"></div>
+
     <div class="lobby-hero">
       <h1 id="txt-title">Торговый Комплекс Rademitrade</h1>
       <p id="txt-subtitle">Выберите специализированный магазин для перехода в каталог товаров</p>
@@ -327,56 +317,6 @@
     </div>
 
     <div class="products-grid" id="store-products-grid"></div>
-  </div>
-
-  <!-- ADMIN MODAL -->
-  <div class="admin-modal" id="admin-modal">
-    <div class="admin-modal-content">
-      <h3 id="modal-title"><i class="fa-solid fa-plus-circle"></i> Добавить новый товар</h3>
-      <form id="add-product-form" onsubmit="handleAddNewProduct(event)">
-        <div class="form-group">
-          <label id="lbl-store-select">Выберите магазин:</label>
-          <select id="admin-store-select">
-            <option value="pergolas">Пергола Групп</option>
-            <option value="facade">Фасады и Ландшафт</option>
-            <option value="karts">Электро Транспорт</option>
-            <option value="beauty">Бьюти Оборудование</option>
-            <option value="pharma">Фарма Лаборатория</option>
-            <option value="custom">Пром Оборудование</option>
-            <option value="misc">Радеми Электроника</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label id="lbl-prod-name">Название товара:</label>
-          <input type="text" id="admin-prod-name" placeholder="Например: Биоклиматическая пергола" required>
-        </div>
-
-        <div class="form-group">
-          <label id="lbl-prod-price">Цена в USD ($):</label>
-          <input type="number" id="admin-prod-price" placeholder="1500" required min="1">
-        </div>
-
-        <div class="form-group">
-          <label id="lbl-prod-mfr">Производитель / Страна:</label>
-          <select id="admin-prod-mfr">
-            <option value="Turkey">Турция</option>
-            <option value="China">Китай</option>
-            <option value="Europe">Европа</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label id="lbl-prod-img">Ссылка на картинку (URL):</label>
-          <input type="url" id="admin-prod-img" placeholder="https://images.unsplash.com/..." required>
-        </div>
-
-        <div class="modal-btns">
-          <button type="submit" class="btn-save" id="btn-save-prod">Добавить товар</button>
-          <button type="button" class="btn-close-modal" onclick="closeAdminModal()" id="btn-cancel-modal">Отмена</button>
-        </div>
-      </form>
-    </div>
   </div>
 
   <!-- FOOTER -->
@@ -437,11 +377,9 @@
         title: "Торговый Комплекс Rademitrade",
         subtitle: "Выберите специализированный магазин для перехода в каталог товаров",
         cart: "Корзина",
-        adminBtn: "Управление",
         back: "← Вернуться в Холл",
         enter: "Войти в магазин →",
         buy: "В корзину",
-        deleteBtn: "Удалить",
         boutique: "Бутик",
         loading: "Загрузка курсов...",
         alertCart: "Всего товаров в корзине: ",
@@ -451,14 +389,6 @@
         mfrTurkey: "Турция",
         mfrChina: "Китай",
         mfrEurope: "Европа",
-        modalTitle: "Добавить новый товар",
-        lblStore: "Выберите магазин:",
-        lblPName: "Название товара:",
-        lblPPrice: "Цена в USD ($):",
-        lblPMfr: "Производитель / Страна:",
-        lblPImg: "Ссылка на картинку (URL):",
-        btnSave: "Добавить товар",
-        btnCancel: "Отмена",
         footerAbout: "Виртуальный торгово-промышленный комплекс международного масштаба. Прямые поставки от ведущих мировых производителей и безопасные расчеты.",
         footerSecSecurity: "Безопасность и Доверие",
         fSsl: "SSL-шифрование 256-bit",
@@ -474,11 +404,6 @@
         pergolasExtended: {
           headline: "Искусство создавать тень и комфорт",
           intro: "Мы создаем пространства, где архитектура встречается с природой. Наш бутик специализируется на премиальных перголах и современных навесах.",
-          features: [
-            "Мировые стандарты: Прямое сотрудничество с ведущими производителями по всему миру.",
-            "Эксклюзив по вашим чертежам: Реализуем проекты любой сложности.",
-            "Безупречное качество: Только долговечные материалы премиум-класса."
-          ]
         },
         stores: {
           pergolas: { name: "Пергола Групп", desc: "Перголы и навесы премиум-класса. Архитектура тени и надежная защита от любых погодных условий." },
@@ -495,11 +420,9 @@
         title: "Rademitrade Virtual Shopping Mall",
         subtitle: "Select a specialized store to view product catalog",
         cart: "Cart",
-        adminBtn: "Manage",
         back: "← Back to Lobby",
         enter: "Enter Store →",
         buy: "Add to Cart",
-        deleteBtn: "Delete",
         boutique: "Boutique",
         loading: "Loading rates...",
         alertCart: "Total items in cart: ",
@@ -509,14 +432,6 @@
         mfrTurkey: "Turkey",
         mfrChina: "China",
         mfrEurope: "Europe",
-        modalTitle: "Add New Product",
-        lblStore: "Select Store:",
-        lblPName: "Product Name:",
-        lblPPrice: "Price in USD ($):",
-        lblPMfr: "Manufacturer / Country:",
-        lblPImg: "Image URL:",
-        btnSave: "Add Product",
-        btnCancel: "Cancel",
         footerAbout: "International virtual industrial and commercial mall. Direct deliveries from leading global manufacturers.",
         footerSecSecurity: "Security & Trust",
         fSsl: "256-bit SSL Encryption",
@@ -532,7 +447,6 @@
         pergolasExtended: {
           headline: "The Art of Creating Shade and Comfort",
           intro: "We create spaces where architecture meets nature. Our boutique specializes in premium pergolas.",
-          features: ["Global Standards", "Custom Designs", "Flawless Quality"]
         },
         stores: {
           pergolas: { name: "Pergola Group", desc: "Premium pergolas & modern canopies with weather protection." },
@@ -546,8 +460,7 @@
       }
     };
 
-    // Базовые данные товаров (сохраняются в памяти браузера)
-    const defaultStoresCatalog = {
+    const storesCatalog = {
       pergolas: {
         img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600",
         products: [
@@ -594,9 +507,6 @@
       }
     };
 
-    // Загрузка каталога из localStorage браузера (чтобы изменения не пропадали)
-    let storesCatalog = JSON.parse(localStorage.getItem('rademi_catalog')) || defaultStoresCatalog;
-
     let currentLang = 'ru';
     let currentCurrency = 'USD';
     let currentStoreKey = null;
@@ -604,10 +514,6 @@
     let cartCount = 0;
     let rates = { USD: 1, EUR: 0.92, RUB: 90.5, ILS: 3.70, AED: 3.67, BTC: 0.000015, ETH: 0.00032 };
     const currSymbols = { USD: "$", EUR: "€", RUB: "₽", ILS: "₪", AED: "د.إ", BTC: "₿ ", ETH: "Ξ " };
-
-    function saveCatalogToStorage() {
-      localStorage.setItem('rademi_catalog', JSON.stringify(storesCatalog));
-    }
 
     async function fetchLiveRates() {
       try {
@@ -653,7 +559,6 @@
 
       document.getElementById('txt-title').innerText = dict.title;
       document.getElementById('txt-subtitle').innerText = dict.subtitle;
-      document.getElementById('txt-admin').innerText = dict.adminBtn;
       document.getElementById('txt-cart').innerText = dict.cart;
       document.getElementById('txt-back').innerText = dict.back;
       document.getElementById('txt-crypto-pay').innerText = dict.cryptoPay;
@@ -662,16 +567,6 @@
       document.getElementById('mfr-turkey').innerText = dict.mfrTurkey;
       document.getElementById('mfr-china').innerText = dict.mfrChina;
       document.getElementById('mfr-europe').innerText = dict.mfrEurope;
-
-      // Admin Modal labels
-      document.getElementById('modal-title').innerHTML = `<i class="fa-solid fa-plus-circle"></i> ${dict.modalTitle}`;
-      document.getElementById('lbl-store-select').innerText = dict.lblStore;
-      document.getElementById('lbl-prod-name').innerText = dict.lblPName;
-      document.getElementById('lbl-prod-price').innerText = dict.lblPPrice;
-      document.getElementById('lbl-prod-mfr').innerText = dict.lblPMfr;
-      document.getElementById('lbl-prod-img').innerText = dict.lblPImg;
-      document.getElementById('btn-save-prod').innerText = dict.btnSave;
-      document.getElementById('btn-cancel-modal').innerText = dict.btnCancel;
 
       // Footer
       document.getElementById('footer-about-text').innerText = dict.footerAbout;
@@ -764,7 +659,6 @@
             </div>
             <div class="card-actions">
               <button class="buy-btn" onclick="addToCart()">${dict.buy}</button>
-              <button class="delete-prod-btn" onclick="deleteProduct('${storeKey}', ${p.id})" title="Удалить товар"><i class="fa-solid fa-trash"></i></button>
             </div>
           </div>
         </div>
@@ -806,44 +700,6 @@
       document.getElementById('lobby-view').classList.remove('active');
       document.getElementById('store-view').classList.add('active');
       window.scrollTo(0,0);
-    }
-
-    // Управление через модальное окно (Админка)
-    function openAdminModal() {
-      document.getElementById('admin-modal').classList.add('open');
-    }
-
-    function closeAdminModal() {
-      document.getElementById('admin-modal').classList.remove('open');
-    }
-
-    function handleAddNewProduct(e) {
-      e.preventDefault();
-      const storeKey = document.getElementById('admin-store-select').value;
-      const name = document.getElementById('admin-prod-name').value;
-      const priceUSD = parseFloat(document.getElementById('admin-prod-price').value);
-      const manufacturer = document.getElementById('admin-prod-mfr').value;
-      const img = document.getElementById('admin-prod-img').value;
-
-      const newId = Date.now();
-      storesCatalog[storeKey].products.push({ id: newId, name, priceUSD, manufacturer, img });
-      
-      saveCatalogToStorage();
-      closeAdminModal();
-      document.getElementById('add-product-form').reset();
-
-      if (currentStoreKey === storeKey) {
-        renderProducts(storeKey);
-      }
-      alert('Товар успешно добавлен на сайт!');
-    }
-
-    function deleteProduct(storeKey, prodId) {
-      if (confirm('Вы уверены, что хотите удалить этот товар?')) {
-        storesCatalog[storeKey].products = storesCatalog[storeKey].products.filter(p => p.id !== prodId);
-        saveCatalogToStorage();
-        renderProducts(storeKey);
-      }
     }
 
     function addToCart() {
